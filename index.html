@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electronic Music Through Fisher's Ear</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --fg: #c8c4bc;
+    --accent: #5a7a9a;
+    --muted: #6a6660;
+    --card-bg: #111114;
+    --border: #1e1e22;
+    --section-bg: #0e0e11;
+    --link: #7a9ab8;
+    --yt-red: #cc4444;
+    --bright: #e0ddd6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Helvetica Neue', -apple-system, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body > * { position: relative; z-index: 1; }
+
+  .hero {
+    padding: 72px 24px 48px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--bright);
+  }
+
+  .hero p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .hero p strong { color: var(--fg); }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  .era-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 56px 0 24px;
+  }
+
+  /* Genre cards — collapsible */
+  .genre-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .genre-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    user-select: none;
+    position: relative;
+  }
+
+  .genre-card summary::-webkit-details-marker { display: none; }
+
+  .genre-card summary::after {
+    content: '▸';
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    font-size: 14px;
+    color: var(--muted);
+    transition: transform 0.2s ease;
+  }
+
+  .genre-card[open] summary::after {
+    transform: rotate(90deg);
+  }
+
+  .genre-card summary:hover {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .genre-header {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .genre-name {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    color: var(--bright);
+  }
+
+  .genre-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .genre-oneliner {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+    padding-right: 24px;
+  }
+
+  .genre-body {
+    padding: 0 24px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .genre-body h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 20px 0 8px;
+  }
+
+  .genre-body p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .genre-body ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .genre-body ul li {
+    font-size: 14px;
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .genre-body ul li::before {
+    content: '— ';
+    color: var(--muted);
+  }
+
+  /* YouTube links */
+  a.yt-link {
+    color: var(--bright);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--yt-red);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  a.yt-link:hover {
+    color: var(--yt-red);
+  }
+
+  a.yt-link::after {
+    content: ' ▶';
+    font-size: 9px;
+    color: var(--yt-red);
+    vertical-align: middle;
+  }
+
+  /* Blockquote */
+  .fisher-quote {
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    margin: 40px 0;
+    background: var(--section-bg);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .fisher-quote p {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: var(--bright);
+  }
+
+  .fisher-quote cite {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* Through-line section */
+  .through-line {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    margin: 32px 0;
+  }
+
+  .through-line h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: var(--bright);
+  }
+
+  .through-line ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .through-line li {
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .through-line li:last-child { border-bottom: none; }
+
+  .through-line li strong { color: var(--accent); }
+
+  /* Explore section */
+  .explore-section {
+    margin-top: 48px;
+  }
+
+  .explore-section h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 32px 0 12px;
+  }
+
+  .explore-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .explore-section li {
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 4px 0;
+  }
+
+  .explore-section a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .explore-section a:hover {
+    border-bottom-color: var(--link);
+  }
+
+  /* Playlist */
+  .playlist {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    margin: 32px 0;
+  }
+
+  .playlist h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: var(--bright);
+  }
+
+  .playlist .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .playlist ol {
+    list-style: none;
+    padding: 0;
+    counter-reset: track;
+  }
+
+  .playlist ol li {
+    counter-increment: track;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .playlist ol li:last-child { border-bottom: none; }
+
+  .playlist ol li::before {
+    content: counter(track, decimal-leading-zero);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 20px;
+  }
+
+  .footer-badge {
+    text-align: center;
+    padding: 32px 0 72px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* Expand/collapse all */
+  .controls {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+  .controls button {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .controls button:hover {
+    color: var(--bright);
+    border-color: var(--accent);
+  }
+
+  @media print {
+    body { background: white; color: #111; }
+    body::before { display: none; }
+    .controls { display: none; }
+    .genre-card { break-inside: avoid; border-color: #ccc; background: white; }
+    .genre-card summary::after { display: none; }
+    .genre-body { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="label">A Listener's Guide</div>
+  <h1>Electronic Music<br>Through Fisher's Ear</h1>
+  <p><strong>A map of the genres Mark Fisher writes about, and how they connect.</strong> This isn't a complete history of electronic music — it's the lineage that matters for reading Fisher. Each genre is a node in a larger argument about technology, class, utopia, and what happened when the future stopped arriving.</p>
+</div>
+
+<div class="container">
+
+  <div class="controls">
+    <button onclick="document.querySelectorAll('.genre-card').forEach(d=>d.open=true)">Expand all</button>
+    <button onclick="document.querySelectorAll('.genre-card').forEach(d=>d.open=false)">Collapse all</button>
+  </div>
+
+  <!-- ═══════ I. FOUNDATIONS ═══════ -->
+  <div class="era-title">I. The Foundations (1960s–70s)</div>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Dub</div>
+        <div class="genre-meta">Late 1960s · Jamaica</div>
+        <div class="genre-oneliner">The art of deconstruction applied to recorded music.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Jamaican producers took reggae tracks and rebuilt them at the mixing desk: stripping vocals, isolating bass and drums, drenching everything in echo, reverb, and delay. The mixing console became an instrument. Tracks dissolve, reform, vanish into space. Bass is foregrounded as a physical force — you feel it in your chest before you hear it.</p>
+      <h4>Key Techniques</h4>
+      <p>Heavy reverb and delay. Dropping instruments in and out of the mix. Treating recordings as raw material to reshape, not fixed artifacts. The "version" — a remix — became as important as the original.</p>
+      <h4>Key Figures</h4>
+      <p>King Tubby, Lee "Scratch" Perry, Scientist.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Dub is the hidden root system beneath almost everything Fisher writes about. Its innovations — studio as instrument, remix as creative form, bass as architecture, space and echo as emotional tools — flow directly into post-punk, trip-hop, jungle, dubstep, and hauntology. When Burial fills a track with echo and absence, he's using methods King Tubby pioneered in Kingston.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>King Tubby — <a class="yt-link" href="https://www.youtube.com/watch?v=SYNaLNIAgiw" target="_blank"><em>Dub from the Roots</em></a></li>
+        <li>Lee "Scratch" Perry — <a class="yt-link" href="https://www.youtube.com/watch?v=EVI56wEd34I" target="_blank"><em>Super Ape</em></a></li>
+        <li>Scientist — <a class="yt-link" href="https://www.youtube.com/results?search_query=Scientist+Rids+the+World+of+the+Evil+Curse+of+the+Vampires" target="_blank"><em>Scientist Rids the World of the Evil Curse of the Vampires</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Krautrock</div>
+        <div class="genre-meta">1968–75 · West Germany</div>
+        <div class="genre-oneliner">Experimental rock that rejected Anglo-American blues tradition and reached toward the future.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Synthesizers, sequencers, tape loops, and motorik rhythms — steady, hypnotic, machine-like beats that sound like driving on an endless autobahn. Ranges from Kraftwerk's pristine electronic pop to Can's improvisatory psychedelia to Tangerine Dream's sprawling synthesizer landscapes.</p>
+      <h4>Key Figures</h4>
+      <p>Kraftwerk, Can, Neu!, Tangerine Dream, Cluster. Kraftwerk are the most important bridge: <em>Autobahn</em> (1974) and <em>Trans-Europe Express</em> (1977) gave electronic music its founding myth.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>The moment popular music first committed to sounding like the future. Kraftwerk's direct influence on Detroit techno, synth-pop, and hip-hop makes them the common ancestor of nearly every branch on this tree.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Kraftwerk — <a class="yt-link" href="https://www.youtube.com/watch?v=i7i83yoQSo0" target="_blank"><em>Trans-Europe Express</em></a></li>
+        <li>Neu! — <a class="yt-link" href="https://www.youtube.com/results?search_query=Neu!+Neu!+full+album" target="_blank"><em>Neu!</em></a></li>
+        <li>Can — <a class="yt-link" href="https://www.youtube.com/watch?v=wQxMB4Wk_y8" target="_blank"><em>Future Days</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Ambient</div>
+        <div class="genre-meta">1975 · UK</div>
+        <div class="genre-oneliner">Music designed to surround rather than demand attention.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>No verse-chorus structure. Texture, space, and slow transformation take priority. Drones, gentle synthesizer washes, processed acoustic instruments, field recordings. Music that changes the atmosphere of a room rather than commanding focus.</p>
+      <h4>Key Figures</h4>
+      <p>Brian Eno coined the term with <em>Ambient 1: Music for Airports</em> (1978), but the seeds were in <em>Another Green World</em> (1975) — the album Fisher references when discussing Darkstar's <em>North</em>.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Eno's ambient is the "green world" — fertile, generative, full of alien possibility. The benchmark against which later, more depleted sonic landscapes are measured. When Fisher calls <em>North</em> "Another Grey World," the green of Eno is what's been lost.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Brian Eno — <a class="yt-link" href="https://www.youtube.com/playlist?list=PLMxy067kbpQheEs28AXiNKTJlzT0yMbfi" target="_blank"><em>Another Green World</em></a></li>
+        <li>Brian Eno — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_kq1C6EEXYJ6RaARqusNCCHReNz3AzV484" target="_blank"><em>Music for Airports</em></a></li>
+        <li>Harold Budd & Eno — <a class="yt-link" href="https://www.youtube.com/watch?v=mwJTwG5r5Ks" target="_blank"><em>The Plateaux of Mirror</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Post-Punk</div>
+        <div class="genre-meta">1977–84 · UK</div>
+        <div class="genre-oneliner">Punk's energy filtered through art-school ambition and electronic experimentation.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Angular guitars, driving bass, drum machines and synths creeping in. Production as creative instrument — Martin Hannett's cavernous, cold studio work with Joy Division is the prime example. Absorbed dub, funk, electronics, and avant-garde ideas that punk had dismissed.</p>
+      <h4>Key Figures</h4>
+      <p>Joy Division, Wire, Siouxsie and the Banshees, Cabaret Voltaire, The Fall, Gang of Four, Magazine.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Fisher's home genre. Where the political and the sonic first fully merged for him — working-class northern English experience rendered in cold, electronic-inflected sound. Joy Division is his touchstone.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Joy Division — <a class="yt-link" href="https://www.youtube.com/results?search_query=Joy+Division+Unknown+Pleasures+full+album" target="_blank"><em>Unknown Pleasures</em></a>, <a class="yt-link" href="https://www.youtube.com/results?search_query=Joy+Division+Closer+full+album" target="_blank"><em>Closer</em></a></li>
+        <li>Wire — <a class="yt-link" href="https://www.youtube.com/results?search_query=Wire+154+full+album" target="_blank"><em>154</em></a></li>
+        <li>Cabaret Voltaire — <a class="yt-link" href="https://www.youtube.com/watch?v=ekEwwXFOCqo" target="_blank"><em>Red Mecca</em></a></li>
+        <li>The Fall — <a class="yt-link" href="https://www.youtube.com/watch?v=gjsQpLIe27I" target="_blank"><em>Hex Enduction Hour</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Industrial</div>
+        <div class="genre-meta">1975 · UK / Europe</div>
+        <div class="genre-oneliner">Music made from noise, tape manipulation, and confrontation.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Found sounds, distortion, abrasive textures, tape collage. Dismantles the boundary between music and noise. Not about dancing or melody — about exposing the violence embedded in everyday sonic environments.</p>
+      <h4>Key Figures</h4>
+      <p>Throbbing Gristle (who coined the term), SPK, Einstürzende Neubauten, Coil. Throbbing Gristle's label was called Industrial Records.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Less for its sound than for its method: treating culture as something to be dissected and reverse-engineered rather than consumed.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Throbbing Gristle — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_k-wdmFfFeWxMS2OBHLSiXpE5Y5eqb9a9s" target="_blank"><em>20 Jazz Funk Greats</em></a></li>
+        <li>Cabaret Voltaire — <a class="yt-link" href="https://www.youtube.com/results?search_query=Cabaret+Voltaire+The+Voice+of+America+full+album" target="_blank"><em>The Voice of America</em></a></li>
+        <li>Coil — <a class="yt-link" href="https://www.youtube.com/watch?v=oBn5qgoeAvg" target="_blank"><em>Horse Rotorvator</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Synth-Pop</div>
+        <div class="genre-meta">1978–85 · UK / Germany</div>
+        <div class="genre-oneliner">Pop music made almost entirely with synthesizers and drum machines.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Catchy melodies, electronic textures, drum-machine rhythms, accessible song structures. Where post-punk and Kraftwerk's legacy became chart music.</p>
+      <h4>Key Figures</h4>
+      <p>Gary Numan, Depeche Mode, the Human League, Soft Cell, OMD. New Order are the crucial bridge — Joy Division's surviving members merged post-punk melancholy with electronic dance energy. <em>Blue Monday</em> (1983) is the hinge between the post-punk world and the dance music world.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>The New Order connection makes synth-pop personal — the path Joy Division's story takes after Curtis's death. Electronic futurism reaching mass audiences without losing emotional weight.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Gary Numan — <a class="yt-link" href="https://www.youtube.com/results?search_query=Gary+Numan+Replicas+full+album" target="_blank"><em>Replicas</em></a></li>
+        <li>New Order — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_ntJ7hJbV4dxYHVuK1Vh5RO7AcwN33cWEU" target="_blank"><em>Power, Corruption & Lies</em></a></li>
+        <li>Depeche Mode — <a class="yt-link" href="https://music.youtube.com/browse/MPREb_LoHFqyQd59N" target="_blank"><em>Violator</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- ═══════ II. DANCE REVOLUTION ═══════ -->
+  <div class="era-title">II. The Dance Revolution (1980s–90s)</div>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Chicago House</div>
+        <div class="genre-meta">1983 · Chicago</div>
+        <div class="genre-oneliner">The birth of modern dance music.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Four-on-the-floor kick drums, looped synthesizer phrases, soulful vocal samples, hypnotic repetition. Built on the Roland TR-808, TR-909, and cheap synths. Acid house (1986–) added the squelchy, psychedelic Roland TB-303 bass synthesizer.</p>
+      <h4>Key Figures</h4>
+      <p>Frankie Knuckles, Ron Hardy, Marshall Jefferson, Larry Heard, Phuture. The name came from the Warehouse, the Chicago club where Knuckles was resident DJ.</p>
+      <h4>Social Context</h4>
+      <p>Emerged from Black and Latino gay clubs. Utopian by default: communal, ecstatic, built by marginalized communities who created their own spaces.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>House's utopianism is historically significant — and its commercial absorption is a key loss. The communal joy of the dancefloor as collective world-building, not entertainment.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Phuture — <a class="yt-link" href="https://www.youtube.com/watch?v=QZSd2pP2dms" target="_blank">"Acid Tracks"</a></li>
+        <li>Marshall Jefferson — <a class="yt-link" href="https://www.youtube.com/results?search_query=Marshall+Jefferson+Move+Your+Body+original" target="_blank">"Move Your Body"</a></li>
+        <li>Larry Heard — <a class="yt-link" href="https://www.youtube.com/results?search_query=Larry+Heard+Can+You+Feel+It" target="_blank">"Can You Feel It"</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Detroit Techno</div>
+        <div class="genre-meta">1985 · Detroit</div>
+        <div class="genre-oneliner">Kraftwerk filtered through Black American experience in a deindustrializing city.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Colder, more abstract, more futurist than house. Precise electronic rhythms, sci-fi synthesizer textures, minimal or absent vocals. Derrick May described it as "George Clinton and Kraftwerk stuck in an elevator."</p>
+      <h4>Key Figures</h4>
+      <p>Juan Atkins, Derrick May, Kevin Saunderson — the "Belleville Three." Later: Underground Resistance, Jeff Mills, Carl Craig.</p>
+      <h4>Social Context</h4>
+      <p>Working-class Black kids in a collapsing auto-industry city, imagining the future through machines. Detroit was post-industrial before the term existed.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>The sonic counterpart to everything Fisher writes about deindustrialization in northern England — futurism built from the ruins of industrial capitalism, by the people it abandoned.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Cybotron — <a class="yt-link" href="https://www.youtube.com/watch?v=YT4qqZHN8no" target="_blank">"Clear"</a></li>
+        <li>Derrick May — <a class="yt-link" href="https://www.youtube.com/watch?v=rFQZndywOR4" target="_blank">"Strings of Life"</a></li>
+        <li>Underground Resistance — <a class="yt-link" href="https://m.youtube.com/playlist?list=PLJ0yqJNMnegLTcnEI1lTM05gQl7JLDHMw" target="_blank"><em>Revolution for Change</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Rave & Hardcore</div>
+        <div class="genre-meta">1988–93 · UK</div>
+        <div class="genre-oneliner">When house and techno crossed the Atlantic and detonated.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Accelerated tempos, chopped breakbeats from funk and soul records, manic vocal samples, piano stabs, massive bass. Increasingly faster and more intense as it evolved.</p>
+      <h4>Key Figures</h4>
+      <p>The Prodigy, SL2, Acen, 4hero, Altern-8. Pirate radio stations and illegal warehouse parties were the infrastructure.</p>
+      <h4>Social Context</h4>
+      <p>The "Second Summer of Love" (1988). Ecstasy, sound-system culture, working-class youth energy. The Criminal Justice Act (1994) criminalized raves by targeting "music characterised by the emission of a succession of repetitive beats."</p>
+      <h4>Why Fisher Cares</h4>
+      <p>The last genuinely popular working-class cultural explosion in Britain — when the future still felt possible and collective joy was a political act. The state shutting it down is one of Fisher's key examples of capitalist realism closing off alternatives.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>The Prodigy — <a class="yt-link" href="https://www.youtube.com/watch?v=cSTBFZ-To2E" target="_blank">"Charly"</a></li>
+        <li>SL2 — <a class="yt-link" href="https://www.youtube.com/results?search_query=SL2+On+a+Ragga+Tip" target="_blank">"On a Ragga Tip"</a></li>
+        <li>Acen — <a class="yt-link" href="https://www.youtube.com/results?search_query=Acen+Trip+II+the+Moon" target="_blank">"Trip II the Moon"</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Jungle & Drum and Bass</div>
+        <div class="genre-meta">1992 · London</div>
+        <div class="genre-oneliner">Rave's breakbeats accelerated, chopped, and layered over deep sub-bass.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Frantic, sped-up sampled breakbeats (especially the "Amen break") over heavy sub-bass from dub and dancehall. Fast on top, slow and heavy on the bottom. Drum and bass is jungle's more polished evolution.</p>
+      <h4>Key Figures</h4>
+      <p>Goldie, LTJ Bukem, Remarc, A Guy Called Gerald, Roni Size. Pirate radio — stations like Kool FM broadcasting from tower-block rooftops — was the distribution channel.</p>
+      <h4>Social Context</h4>
+      <p>Predominantly Black British, emerging from London's multicultural inner city. The Caribbean diaspora meeting British electronic music — Jamaican sound-system culture spliced with rave energy.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>The UK's unique contribution: futurism rooted in diasporic Black experience, pirate radio, and working-class London. Burial's music is haunted by jungle's ghost — those pirate radio transmissions, half-heard through static.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>LTJ Bukem — <a class="yt-link" href="https://www.youtube.com/results?search_query=LTJ+Bukem+Music+1993" target="_blank">"Music"</a></li>
+        <li>Goldie — <a class="yt-link" href="https://www.youtube.com/results?search_query=Goldie+Timeless+full+album" target="_blank"><em>Timeless</em></a></li>
+        <li>Remarc — <a class="yt-link" href="https://www.youtube.com/watch?v=8ZmeU5f64pQ" target="_blank">"Ricky"</a></li>
+        <li>A Guy Called Gerald — <a class="yt-link" href="https://www.youtube.com/results?search_query=A+Guy+Called+Gerald+Black+Secret+Technology" target="_blank"><em>Black Secret Technology</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="fisher-quote">
+    <p>The future didn't disappear overnight. It was slowly, gradually cancelled.</p>
+    <cite>Mark Fisher, <em>Ghosts of My Life</em></cite>
+  </div>
+
+  <!-- ═══════ III. THE BRANCHING ═══════ -->
+  <div class="era-title">III. The Branching (Mid-90s–2000s)</div>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Trip-Hop</div>
+        <div class="genre-meta">1991 · Bristol</div>
+        <div class="genre-oneliner">Slow, melancholic electronic music built from hip-hop beats, dub bass, and cinematic textures.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Downtempo. Sample-based production from hip-hop slowed to a crawl, layered with atmosphere — strings, film-noir vocals, echo, and unease. Introspective where rave was communal.</p>
+      <h4>Key Figures</h4>
+      <p>Massive Attack, Portishead, Tricky. Bristol was the epicenter — a city with its own sound-system tradition and long dub influence.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>An early signal of hauntology: music that sounds like it's remembering something rather than living it. Portishead's <em>Third</em> (2008) is one of the bleakest records in his canon.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Massive Attack — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_nd4LborPNxR-W0gX3HkfJP9LTTSov6gG0" target="_blank"><em>Mezzanine</em></a></li>
+        <li>Portishead — <a class="yt-link" href="https://www.youtube.com/results?search_query=Portishead+Dummy+full+album" target="_blank"><em>Dummy</em></a></li>
+        <li>Tricky — <a class="yt-link" href="https://m.youtube.com/playlist?list=PLiN-7mukU_REHM3Fq66pqMlPKt2gIMJdR" target="_blank"><em>Maxinquaye</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">UK Garage & 2-Step</div>
+        <div class="genre-meta">1994 · London</div>
+        <div class="genre-oneliner">House music with shuffled, syncopated rhythms and R&B vocal samples.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Skippy, swinging rhythms that break from house's steady kick. 2-step drops beats, creating space and unpredictability. Glossy, polished production with soulful vocal samples, often pitched up or chopped.</p>
+      <h4>Key Figures</h4>
+      <p>MJ Cole, El-B, Wookie, DJ EZ, Zed Bias. Pirate radio was again the infrastructure — Rinse FM, Déjà Vu.</p>
+      <h4>Social Context</h4>
+      <p>Aspirational, tied to a brief moment of working-class optimism in late-90s London. Champagne, sharp clothes, garage raves. A scene that felt, briefly, like it owned the future.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>UK garage is the immediate ancestor of dubstep and grime, and what Burial is mourning — pirate radio sets and 2-step raves that faded as the genre was commercialized. The crackle on Burial's records is pirate radio static from UKG transmissions.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>MJ Cole — <a class="yt-link" href="https://www.youtube.com/results?search_query=MJ+Cole+Sincere" target="_blank">"Sincere"</a></li>
+        <li>El-B — <a class="yt-link" href="https://www.youtube.com/results?search_query=El-B+uk+garage" target="_blank">various productions</a></li>
+        <li>Wookie — <a class="yt-link" href="https://www.youtube.com/watch?v=0nggZE0A9nE" target="_blank">"Battle"</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">IDM</div>
+        <div class="genre-meta">1991 · UK / Europe</div>
+        <div class="genre-oneliner">"Intelligent dance music" — electronic music for listening, not dancing.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Ranges enormously: Aphex Twin's hyperactive drill'n'bass, Boards of Canada's warm degraded nostalgia, Autechre's severe digital abstraction. Uses rave and techno's tools to make music too complex, too slow, too weird, or too beautiful for the dancefloor.</p>
+      <h4>Key Figures</h4>
+      <p>Aphex Twin, Autechre, Boards of Canada, Squarepusher. Warp Records (Sheffield) was the key label — their <em>Artificial Intelligence</em> compilation (1992) defined the territory.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Boards of Canada are especially important. <em>Music Has the Right to Children</em> (1998) uses warped tape, children's TV samples, and faded synths — hauntology before the term existed. A half-remembered educational broadcast from a childhood that may not have happened.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Aphex Twin — <a class="yt-link" href="https://music.youtube.com/browse/MPREb_gaJgUErCmNd" target="_blank"><em>Selected Ambient Works 85–92</em></a></li>
+        <li>Boards of Canada — <a class="yt-link" href="https://www.youtube.com/results?search_query=Boards+of+Canada+Music+Has+the+Right+to+Children" target="_blank"><em>Music Has the Right to Children</em></a></li>
+        <li>Autechre — <a class="yt-link" href="https://www.youtube.com/results?search_query=Autechre+Amber+full+album" target="_blank"><em>Amber</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Dubstep</div>
+        <div class="genre-meta">1998 · South London</div>
+        <div class="genre-oneliner">Slow, bass-heavy, spacious dance music built on dub's principles.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Deep sub-bass you feel physically. Sparse percussion at half-time tempo (~140 BPM felt at 70). Cavernous space — reverb and silence as important as what fills them. Note: later "brostep" (Skrillex, etc.) is a different thing from what Fisher discusses.</p>
+      <h4>Key Figures</h4>
+      <p>Burial, Kode9, Mala, Digital Mystikz, Loefah. Club nights: DMZ, FWD>>. Labels: Hyperdub, Tempa. Kode9 runs Hyperdub and is himself a theorist — his book <em>Sonic Warfare</em> overlaps with Fisher's thinking.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>His home genre for the 2000s. Burial's <em>Untrue</em> (2007) is the album Fisher wrote about most passionately — its crackle, its ghostly vocal samples, its mourning for the rave. Where dub's sonic methods meet the post-rave melancholy of a scene looking back at futures it lost.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Burial — <a class="yt-link" href="https://www.youtube.com/watch?v=Q4OQV1XoD1o" target="_blank"><em>Untrue</em></a></li>
+        <li>Kode9 & The Spaceape — <a class="yt-link" href="https://www.youtube.com/playlist?list=PL333NRV9w0mXSYftssXnQkPUEUvP1Lcu0" target="_blank"><em>Memories of the Future</em></a></li>
+        <li>Digital Mystikz — <a class="yt-link" href="https://www.youtube.com/results?search_query=Digital+Mystikz+Anti+War+Dub" target="_blank">"Anti War Dub"</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- ═══════ IV. HAUNTOLOGY ═══════ -->
+  <div class="era-title">IV. Hauntology & the Aftermath (2000s–10s)</div>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Hauntology</div>
+        <div class="genre-meta">2000s · UK</div>
+        <div class="genre-oneliner">Not a genre — a tendency. Music saturated with the textures of dead or dying media.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Vinyl crackle, tape hiss, library music samples, faded public-information-film aesthetics. Music received from the past through damaged equipment, mourning futures that were promised but never delivered. Term from Derrida; applied to music by Fisher and Reynolds.</p>
+      <h4>Key Figures</h4>
+      <ul>
+        <li><strong>The Caretaker</strong> (Leyland Kirby) — loops and degrades 1930s ballroom records. <a class="yt-link" href="https://www.youtube.com/watch?v=LL998ajnjN4" target="_blank"><em>An Empty Bliss Beyond This World</em></a> (2011) simulates memory loss. <a class="yt-link" href="https://www.youtube.com/watch?v=wJWksPWDKOc" target="_blank"><em>Everywhere at the End of Time</em></a> (2016–19) traces dementia across six albums.</li>
+        <li><strong>Ghost Box Records</strong> — Belbury Poly, The Advisory Circle, the Focus Group. Evokes 1970s British public broadcasting. A world that feels familiar but never existed.</li>
+        <li><strong>William Basinski</strong> — <a class="yt-link" href="https://www.youtube.com/results?search_query=William+Basinski+Disintegration+Loops" target="_blank"><em>The Disintegration Loops</em></a> (2002): tape loops that physically deteriorate as they play.</li>
+        <li><strong>Burial</strong> and <strong>Boards of Canada</strong> also belong here, from dubstep and IDM respectively.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Hypnagogic Pop & Vaporwave</div>
+        <div class="genre-meta">2009 · US / Internet</div>
+        <div class="genre-oneliner">Half-remembered pop from an era that didn't happen.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Hauntology's degraded-media aesthetic applied to American consumer culture: mall muzak, VHS tracking errors, faded synth-pop. Vaporwave (2011–) slowed corporate smooth jazz and 80s pop into eerie, ironic loops.</p>
+      <h4>Key Figures</h4>
+      <p>Ariel Pink, James Ferraro, Oneohtrix Point Never, Macintosh Plus (vaporwave).</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Engaged cautiously. Vaporwave potentially illustrates capitalist realism — you can't satirize consumer culture without being absorbed by it — but Fisher worried it was too comfortable in its irony. Hauntology mourns lost futures; vaporwave aestheticizes the rubble.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Oneohtrix Point Never — <a class="yt-link" href="https://www.youtube.com/results?search_query=Oneohtrix+Point+Never+Replica+full+album" target="_blank"><em>Replica</em></a></li>
+        <li>James Ferraro — <a class="yt-link" href="https://www.youtube.com/watch?v=pd-uSm8ittU" target="_blank"><em>Far Side Virtual</em></a></li>
+        <li>Macintosh Plus — <a class="yt-link" href="https://www.youtube.com/watch?v=bAgmGZ9iQ2Y" target="_blank"><em>Floral Shoppe</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="genre-card">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Post-Dubstep</div>
+        <div class="genre-meta">2008 · UK</div>
+        <div class="genre-oneliner">The generation after dubstep, working in its ruins.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Introspective, textural electronic music. Keeps dubstep's spatial awareness and bass weight but abandons dancefloor conventions. Ranges from bleak synth-pop to fractured glitch to crushed, hazy techno.</p>
+      <h4>Key Figures</h4>
+      <p>Darkstar, Actress, Andy Stott, Laurel Halo, Raime, Demdike Stare. Darkstar's <em>North</em> (2010) — Fisher's "Another Grey World" — sounds like it was recorded in an abandoned retail park.</p>
+      <h4>Why Fisher Cares</h4>
+      <p>Where the lineage arrives. Music that has absorbed all of the preceding history and emerged where the utopian energy of rave and the futurism of techno have both been exhausted. What remains is atmosphere, memory, and grey.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>Darkstar — <a class="yt-link" href="https://music.youtube.com/browse/MPREb_126FCCM8nzK" target="_blank"><em>North</em></a></li>
+        <li>Actress — <a class="yt-link" href="https://www.youtube.com/results?search_query=Actress+R.I.P.+album" target="_blank"><em>R.I.P.</em></a></li>
+        <li>Andy Stott — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_n4ZREuCdkOJDmYaXnG0wpxQG3lDQol0bE" target="_blank"><em>Luxury Problems</em></a></li>
+        <li>Demdike Stare — <a class="yt-link" href="https://www.youtube.com/results?search_query=Demdike+Stare+Tryptych" target="_blank"><em>Tryptych</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- ═══════ V. HOW THEY CONNECT ═══════ -->
+  <div class="era-title">V. How They Connect</div>
+
+  <div class="through-line">
+    <h3>The Through-Line</h3>
+    <p style="font-size:15px; color:var(--muted); margin-bottom:16px;">Fisher's narrative is a trajectory from utopia to hauntology.</p>
+    <ul>
+      <li><strong>1960s–70s</strong> — Dub invents the studio as instrument. Krautrock and ambient imagine new sonic worlds. Post-punk and industrial expose the machinery behind the surface.</li>
+      <li><strong>1980s</strong> — House and techno emerge from marginalized communities in deindustrializing American cities — the future built from ruins, communal, ecstatic.</li>
+      <li><strong>Late 80s–early 90s</strong> — Rave brings that energy to the UK. The last mass working-class cultural explosion. Jungle adds diasporic complexity.</li>
+      <li><strong>Mid–late 90s</strong> — IDM and trip-hop internalize the energy, turn reflective. UK garage has a brief, bright flash of aspirational optimism.</li>
+      <li><strong>2000s</strong> — Dubstep mourns the rave from within its aftermath. Hauntology names the condition: culture haunted by futures that never arrived.</li>
+      <li><strong>2010s</strong> — Post-dubstep and vaporwave inhabit the grey. The green world has become ash.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════ VI. WHERE TO EXPLORE ═══════ -->
+  <div class="era-title">VI. Where to Explore</div>
+
+  <div class="explore-section">
+    <h3>Interactive Maps</h3>
+    <ul>
+      <li><strong><a href="https://music.ishkur.com/" target="_blank">Ishkur's Guide to Electronic Music</a></strong> — Phylogenetic tree of 153+ subgenres with 818 audio samples. The single best starting point.</li>
+      <li><strong><a href="https://musicmap.info/" target="_blank">Musicmap</a></strong> — Beautifully designed genealogy of all popular music. 234 genres with timelines and Spotify playlists.</li>
+      <li><strong><a href="https://everynoise.com/" target="_blank">Every Noise at Once</a></strong> — Scatter plot of ~6,000 Spotify genres. Click any genre, hear a sample instantly.</li>
+    </ul>
+
+    <h3>Books</h3>
+    <ul>
+      <li><strong>Simon Reynolds — <em>Energy Flash</em></strong> (1998, updated 2013). The definitive history of rave culture. Where Fisher theorizes, Reynolds reports.</li>
+      <li><strong>Kodwo Eshun — <em>More Brilliant than the Sun</em></strong> (1998). Afrofuturist theory meets electronic music criticism.</li>
+      <li><strong>Simon Reynolds — <em>Retromania</em></strong> (2011). Why pop culture became addicted to its own past.</li>
+      <li><strong>Michael Veal — <em>Dub: Soundscapes and Shattered Songs</em></strong> (2007). The deep history of dub production and culture.</li>
+      <li><strong>Dan Sicko — <em>Techno Rebels</em></strong> (1999). The Detroit techno story.</li>
+    </ul>
+
+    <h3>Documentaries</h3>
+    <ul>
+      <li><strong>Pump Up the Volume</strong> (2001) — Acid house and rave from Chicago to the UK.</li>
+      <li><strong>High Tech Soul</strong> (2006) — Detroit techno, told by the producers.</li>
+      <li><strong>Dub Echoes</strong> (2008) — Dub's influence from Kingston to Berlin.</li>
+      <li><strong>Bassweight</strong> (2010) — Early dubstep and the physical impact of sub-bass.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════ PLAYLIST ═══════ -->
+  <div class="playlist">
+    <h3>Start Listening</h3>
+    <p class="sub">A compressed playlist tracing the Fisher arc in ~16 tracks.</p>
+    <ol>
+      <li><span>King Tubby — <a class="yt-link" href="https://www.youtube.com/results?search_query=King+Tubby+Dub+You+Can+Feel" target="_blank">"Dub You Can Feel"</a></span></li>
+      <li><span>Kraftwerk — <a class="yt-link" href="https://www.youtube.com/watch?v=i7i83yoQSo0" target="_blank">"Trans-Europe Express"</a></span></li>
+      <li><span>Brian Eno — <a class="yt-link" href="https://www.youtube.com/results?search_query=Brian+Eno+St+Elmo%27s+Fire" target="_blank">"St. Elmo's Fire"</a></span></li>
+      <li><span>Joy Division — <a class="yt-link" href="https://www.youtube.com/watch?v=1EdUjlawLJM" target="_blank">"Atmosphere"</a></span></li>
+      <li><span>New Order — <a class="yt-link" href="https://www.youtube.com/results?search_query=New+Order+Blue+Monday+official" target="_blank">"Blue Monday"</a></span></li>
+      <li><span>Phuture — <a class="yt-link" href="https://www.youtube.com/watch?v=QZSd2pP2dms" target="_blank">"Acid Tracks"</a></span></li>
+      <li><span>Derrick May — <a class="yt-link" href="https://www.youtube.com/watch?v=rFQZndywOR4" target="_blank">"Strings of Life"</a></span></li>
+      <li><span>The Prodigy — <a class="yt-link" href="https://www.youtube.com/watch?v=cSTBFZ-To2E" target="_blank">"Charly"</a></span></li>
+      <li><span>Goldie — <a class="yt-link" href="https://www.youtube.com/results?search_query=Goldie+Inner+City+Life" target="_blank">"Inner City Life"</a></span></li>
+      <li><span>Massive Attack — <a class="yt-link" href="https://www.youtube.com/watch?v=u7K72X4eo_s" target="_blank">"Teardrop"</a></span></li>
+      <li><span>Boards of Canada — <a class="yt-link" href="https://www.youtube.com/results?search_query=Boards+of+Canada+Roygbiv" target="_blank">"Roygbiv"</a></span></li>
+      <li><span>MJ Cole — <a class="yt-link" href="https://www.youtube.com/results?search_query=MJ+Cole+Sincere" target="_blank">"Sincere"</a></span></li>
+      <li><span>Digital Mystikz — <a class="yt-link" href="https://www.youtube.com/results?search_query=Digital+Mystikz+Anti+War+Dub" target="_blank">"Anti War Dub"</a></span></li>
+      <li><span>Burial — <a class="yt-link" href="https://www.youtube.com/watch?v=Q4OQV1XoD1o" target="_blank">"Archangel"</a></span></li>
+      <li><span>The Caretaker — <a class="yt-link" href="https://www.youtube.com/watch?v=LL998ajnjN4" target="_blank">"All You Are Going to Want to Do Is Get Back There"</a></span></li>
+      <li><span>Darkstar — <a class="yt-link" href="https://www.youtube.com/results?search_query=Darkstar+Gold+electronic" target="_blank">"Gold"</a></span></li>
+    </ol>
+  </div>
+
+  <div class="footer-badge">Made with Dia</div>
+</div>
+
+</body>
+</html>
