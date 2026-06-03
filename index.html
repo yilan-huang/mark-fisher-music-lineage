@@ -393,6 +393,193 @@
     border-color: var(--accent);
   }
 
+  /* Tags */
+  .genre-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    padding-right: 24px;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .tag--relation {
+    color: #b8d4e8;
+    border: 1px solid #2a4a60;
+    background: rgba(90, 122, 154, 0.12);
+  }
+
+  .tag--valence {
+    color: #d4b896;
+    border: 1px solid #604a2a;
+    background: rgba(180, 140, 90, 0.10);
+  }
+
+  .tag--concept {
+    color: #a8b8a0;
+    border: 1px solid #3a4a36;
+    background: rgba(120, 160, 110, 0.08);
+  }
+
+  .genre-tagline {
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.55;
+    margin-top: 8px;
+    padding-right: 24px;
+    opacity: 0.8;
+  }
+
+  /* Filter bar */
+  .filter-bar {
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .filter-bar__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .filter-bar__row:last-child { margin-bottom: 0; }
+
+  .filter-bar__label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-btn--relation {
+    color: #6a8a9e;
+    border: 1px solid #1e3444;
+    background: transparent;
+  }
+  .filter-btn--relation.active {
+    color: #b8d4e8;
+    border-color: #2a4a60;
+    background: rgba(90, 122, 154, 0.2);
+  }
+
+  .filter-btn--valence {
+    color: #9a8a6e;
+    border: 1px solid #3e3420;
+    background: transparent;
+  }
+  .filter-btn--valence.active {
+    color: #d4b896;
+    border-color: #604a2a;
+    background: rgba(180, 140, 90, 0.18);
+  }
+
+  .filter-btn--reset {
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: transparent;
+    margin-left: auto;
+  }
+  .filter-btn--reset:hover {
+    color: var(--bright);
+    border-color: var(--accent);
+  }
+
+  .genre-card.filtered-out {
+    display: none;
+  }
+
+  /* Legend tooltip */
+  .legend-trigger {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    cursor: help;
+    border-bottom: 1px dashed var(--muted);
+    position: relative;
+    display: inline-block;
+  }
+
+  .legend-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 480px;
+    max-width: calc(100vw - 80px);
+    background: #1a1a1e;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    z-index: 100;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--fg);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  }
+
+  .legend-trigger:hover .legend-tooltip {
+    display: block;
+  }
+
+  .legend-tooltip h5 {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 10px 0 4px;
+    color: var(--accent);
+  }
+
+  .legend-tooltip h5:first-child { margin-top: 0; }
+
+  .legend-tooltip p {
+    font-size: 11px;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .legend-swatch {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  .legend-swatch--blue { background: rgba(90, 122, 154, 0.5); border: 1px solid #2a4a60; }
+  .legend-swatch--amber { background: rgba(180, 140, 90, 0.4); border: 1px solid #604a2a; }
+  .legend-swatch--green { background: rgba(120, 160, 110, 0.35); border: 1px solid #3a4a36; }
+
   @media print {
     body { background: white; color: #111; }
     body::before { display: none; }
@@ -418,15 +605,110 @@
     <button onclick="document.querySelectorAll('.genre-card').forEach(d=>d.open=false)">Collapse all</button>
   </div>
 
+  <div class="filter-bar">
+    <div class="filter-bar__row">
+      <span class="filter-bar__label">Relation</span>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Origin" onclick="toggleFilter(this)">Origin</button>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Home" onclick="toggleFilter(this)">Home</button>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Theorized" onclick="toggleFilter(this)">Theorized</button>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Mourned" onclick="toggleFilter(this)">Mourned</button>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Diagnosed" onclick="toggleFilter(this)">Diagnosed</button>
+      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Unfinished" onclick="toggleFilter(this)">Unfinished</button>
+    </div>
+    <div class="filter-bar__row">
+      <span class="filter-bar__label">Valence</span>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Utopian" onclick="toggleFilter(this)">Utopian</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Futurist" onclick="toggleFilter(this)">Futurist</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Generative" onclick="toggleFilter(this)">Generative</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Resistant" onclick="toggleFilter(this)">Resistant</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Mourning" onclick="toggleFilter(this)">Mourning</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Symptomatic" onclick="toggleFilter(this)">Symptomatic</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Recuperative" onclick="toggleFilter(this)">Recuperative</button>
+      <button class="filter-btn filter-btn--reset" onclick="resetFilters()">Clear filters</button>
+    </div>
+    <div class="filter-bar__row" style="margin-top:4px;">
+      <span class="legend-trigger">About the labels
+        <div class="legend-tooltip">
+          <h5><span class="legend-swatch legend-swatch--blue"></span> Relation — How Fisher relates</h5>
+          <p><strong>Origin</strong> — foundational genres, including his own music<br>
+          <strong>Home</strong> — genres he lived inside, wrote from<br>
+          <strong>Theorized</strong> — analyzed at length to build arguments<br>
+          <strong>Mourned</strong> — genres whose loss drives his work<br>
+          <strong>Diagnosed</strong> — examined as symptoms of the condition<br>
+          <strong>Unfinished</strong> — the project left incomplete</p>
+          <h5><span class="legend-swatch legend-swatch--amber"></span> Valence — Political direction</h5>
+          <p><strong>Utopian</strong> — collective joy as political act<br>
+          <strong>Futurist</strong> — imagining the new<br>
+          <strong>Generative</strong> — producing tools others inherit<br>
+          <strong>Resistant</strong> — exposing or refusing the dominant order<br>
+          <strong>Mourning</strong> — registering loss<br>
+          <strong>Symptomatic</strong> — embodying the condition<br>
+          <strong>Recuperative</strong> — attempting recovery</p>
+          <h5><span class="legend-swatch legend-swatch--green"></span> Concepts — Key Fisherian ideas</h5>
+          <p>Specific terms and frameworks Fisher uses to read each genre.</p>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <!-- ═══════ 0. PRELUDE ═══════ -->
+  <div class="era-title">0. Prelude — Fisher's Own Music</div>
+
+  <details class="genre-card" data-relation="Origin" data-valence="Resistant">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">D-Generation / The Lower Depths</div>
+        <div class="genre-meta">1993–95 · Manchester</div>
+        <div class="genre-oneliner">Fisher as musician: "psychedelic futurism, techno haunted by the ghost of punk."</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--valence">Resistant</span>
+          <span class="tag tag--concept">Nostalgia Conspiracy</span>
+          <span class="tag tag--concept">psychedelic futurism</span>
+          <span class="tag tag--concept">theory as sonic practice</span>
+        </div>
+        <div class="genre-tagline">Before K-Punk, before <em>Capitalist Realism</em>, Fisher made music that already contained the entire argument — sampling Rotten as critique, insisting on modernism over revival, attacking rave's unarticulated utopianism. The theory and the beats were the same activity.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Sound</h4>
+      <p>Ambient drones, dub-reggae melodica, junglist breakbeats, and conceptually loaded samples — Doctor Who, Johnny Rotten, Elgar. Simon Reynolds described it as "Ultramarine gone noir." Not guitar music pretending to be psychedelic, but sampler-and-sequencer music that understood psychedelia as the abuse of whatever technology is current.</p>
+      <h4>Key Figures</h4>
+      <p>Mark Fisher, Simon Biddell, Lee Thompson. A Manchester trio whose press releases were as important as their tracks — manifestos disguised as band bios. Reynolds wrote about them in <em>Melody Maker</em> in 1994, years before meeting Fisher in person, calling it a "meeting of minds." They were forced to rename as The Lower Depths after a cease-and-desist from a New York rock band of the same name.</p>
+      <h4>The Ideas</h4>
+      <p>D-Generation's EP <em>Entropy in the UK</em> contained the embryo of Fisher's entire intellectual project. "73/93" attacked the "Nostalgia Conspiracy" — the refusal of a generation to engage with the present. "The Condition of Muzak" sampled Rotten's "ever get the feeling you've been cheated?" and looped it into a techno riff designed, as Reynolds put it, to "start a virus of disaffection." They insisted that mod meant <em>modernist</em> — forward-facing, not revivalist — and pledged allegiance to a "dark, deviant tradition" of Englishness: The Fall, Syd Barrett, Wyndham Lewis, Michael Moorcock. Every one of these positions became a pillar of K-Punk a decade later.</p>
+      <h4>Why It Matters</h4>
+      <p>D-Generation's critique of rave — "full of submerged utopian longings, but because they aren't articulated, the culture functions as a safety valve" — prefigures Fisher's entire trajectory: from the youthful polemic of the "Nostalgia Conspiracy" to the mature hauntology of <em>Ghosts of My Life</em> to the unfinished recovery project of <em>Acid Communism</em>. Fisher stopped making music and started writing, but the method — theory and cultural production as the same activity — never changed.</p>
+      <h4>Key Listening</h4>
+      <ul>
+        <li>D-Generation — <a class="yt-link" href="https://kokoxoka.bandcamp.com/album/entropy-in-the-uk" target="_blank"><em>Entropy in the UK</em></a> (Bandcamp)</li>
+        <li>The Lower Depths — <a class="yt-link" href="https://www.youtube.com/results?search_query=The+Lower+Depths+Isle+of+the+Dead" target="_blank"><em>Isle of the Dead</em></a></li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="fisher-quote">
+    <p>We would have been punks in '77, but today we can't see why anyone would ignore modern music.</p>
+    <cite>D-Generation, press materials, 1994</cite>
+  </div>
+
   <!-- ═══════ I. FOUNDATIONS ═══════ -->
   <div class="era-title">I. The Foundations (1960s–70s)</div>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Origin" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Dub</div>
         <div class="genre-meta">Late 1960s · Jamaica</div>
         <div class="genre-oneliner">The art of deconstruction applied to recorded music.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--valence">Generative</span>
+          <span class="tag tag--concept">studio as instrument</span>
+          <span class="tag tag--concept">bass as architecture</span>
+          <span class="tag tag--concept">the version</span>
+        </div>
+        <div class="genre-tagline">The hidden foundation beneath everything Fisher writes about. Dub's innovations — echo as emotional tool, remix as creative form, bass you feel in your chest — flow directly into post-punk, jungle, dubstep, and hauntology. King Tubby invented the method; every genre on this page inherited it.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -437,7 +719,12 @@
       <h4>Key Figures</h4>
       <p>King Tubby, Lee "Scratch" Perry, Scientist.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Dub is the hidden root system beneath almost everything Fisher writes about. Its innovations — studio as instrument, remix as creative form, bass as architecture, space and echo as emotional tools — flow directly into post-punk, trip-hop, jungle, dubstep, and hauntology. When Burial fills a track with echo and absence, he's using methods King Tubby pioneered in Kingston.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Dub established the foundational sonic vocabulary Fisher returns to constantly — echo as emotional architecture, bass as physical force, space and silence as compositional tools. Every genre he loves inherits these methods. In <em>Ghosts of My Life</em>, Fisher treats Burial's echo-drenched production as a direct descendant of King Tubby's mixing-desk deconstructions.</li>
+        <li><strong>Culture:</strong> The "version" — the remix as a creative form equal to the original — dismantles the idea of a fixed, authentic text. This anticipates Fisher's interest in what he calls "popular modernism": culture as an ongoing process of remaking, not a canon of finished works. The studio becomes a site of production rather than reproduction.</li>
+        <li><strong>Politics:</strong> Dub emerged from Jamaica's sound-system culture — communal, outdoor, built by working-class communities from available technology. Fisher sees this as a model for the kind of autonomous cultural infrastructure (pirate radio, illegal raves, independent labels) that later sustained rave and jungle in the UK.</li>
+        <li><strong>Modern resonance:</strong> Dub's methods are now so thoroughly absorbed that they're invisible. The entire architecture of modern electronic production — effects as instruments, remixing as standard practice, bass-weight as physical experience — originates here. Artists like Arca, Klein, and the deconstructed club scene continue to treat the mix as a site of radical transformation.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>King Tubby — <a class="yt-link" href="https://www.youtube.com/watch?v=SYNaLNIAgiw" target="_blank"><em>Dub from the Roots</em></a></li>
@@ -447,12 +734,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Origin" data-valence="Futurist">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Krautrock</div>
         <div class="genre-meta">1968–75 · West Germany</div>
         <div class="genre-oneliner">Experimental rock that rejected Anglo-American blues tradition and reached toward the future.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--valence">Futurist</span>
+          <span class="tag tag--concept">popular modernism</span>
+          <span class="tag tag--concept">the man-machine</span>
+          <span class="tag tag--concept">motorik</span>
+        </div>
+        <div class="genre-tagline">The moment music committed to sounding like the future. Kraftwerk gave electronic music its origin story and its founding method — the machine as expressive instrument. Their influence on Detroit techno, synth-pop, and hip-hop makes them the common ancestor of nearly every branch here.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -461,7 +756,12 @@
       <h4>Key Figures</h4>
       <p>Kraftwerk, Can, Neu!, Tangerine Dream, Cluster. Kraftwerk are the most important bridge: <em>Autobahn</em> (1974) and <em>Trans-Europe Express</em> (1977) gave electronic music its founding myth.</p>
       <h4>Why Fisher Cares</h4>
-      <p>The moment popular music first committed to sounding like the future. Kraftwerk's direct influence on Detroit techno, synth-pop, and hip-hop makes them the common ancestor of nearly every branch on this tree.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> The moment popular music first committed to sounding like the future rather than recycling the past. Kraftwerk's pristine machine-music — "the man-machine" — proposed that electronic sound could carry as much emotional weight as any guitar. Fisher treats this as the founding act of the lineage: technology as expressive medium, not gimmick.</li>
+        <li><strong>Culture:</strong> Kraftwerk's direct influence on Detroit techno, synth-pop, and hip-hop makes them the common ancestor of nearly every branch on this tree. When Afrika Bambaataa sampled <em>Trans-Europe Express</em> for "Planet Rock" (1982), he created the bridge between European electronic futurism and Black American dance music — a crossing Fisher considers one of the most significant in pop history.</li>
+        <li><strong>Politics:</strong> Krautrock was a deliberate refusal of Anglo-American cultural dominance. Post-war German musicians rejected the blues-rock tradition and built something new from synthesis and repetition. Fisher sees this as an early example of what he values most: using the conditions of your own moment to produce genuinely unprecedented culture, rather than replaying inherited forms.</li>
+        <li><strong>Modern resonance:</strong> The motorik pulse runs through contemporary electronic music from Caribou to Floating Points. Can's improvisatory methods anticipate the live-electronic approach of artists like Four Tet. Tangerine Dream's long-form synthesizer voyages paved the way for the ambient-electronic renaissance of the 2010s–20s.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Kraftwerk — <a class="yt-link" href="https://www.youtube.com/watch?v=i7i83yoQSo0" target="_blank"><em>Trans-Europe Express</em></a></li>
@@ -471,12 +771,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Ambient</div>
         <div class="genre-meta">1975 · UK</div>
         <div class="genre-oneliner">Music designed to surround rather than demand attention.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Generative</span>
+          <span class="tag tag--concept">the green world</span>
+          <span class="tag tag--concept">generative music</span>
+          <span class="tag tag--concept">Another Grey World</span>
+        </div>
+        <div class="genre-tagline">Eno's ambient is Fisher's "green world" — lush, fertile, full of alien possibility. It's the benchmark: when Fisher calls Darkstar's <em>North</em> "Another Grey World," the green of Eno is what's been lost. The entire hauntological arc is measured against this standard of vanished vitality.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -485,7 +793,12 @@
       <h4>Key Figures</h4>
       <p>Brian Eno coined the term with <em>Ambient 1: Music for Airports</em> (1978), but the seeds were in <em>Another Green World</em> (1975) — the album Fisher references when discussing Darkstar's <em>North</em>.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Eno's ambient is the "green world" — fertile, generative, full of alien possibility. The benchmark against which later, more depleted sonic landscapes are measured. When Fisher calls <em>North</em> "Another Grey World," the green of Eno is what's been lost.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Eno's ambient is the "green world" — fertile, generative, full of alien possibility. Fisher uses <em>Another Green World</em> as the benchmark against which all later sonic landscapes are measured. When he calls Darkstar's <em>North</em> "Another Grey World," the green of Eno is what's been lost — the same spatial depth, but with all the vitality subtracted, like a Max Ernst forest turned to ash.</li>
+        <li><strong>Culture:</strong> Eno's concept of "generative music" — systems that produce endless variation without human intervention — connects to Fisher's interest in cultural production as an ongoing process. Ambient proposed that music could be environmental, atmospheric, a condition of space rather than a sequence of events. This idea flows directly into Fisher's reading of hauntology, where sonic texture and atmosphere carry the meaning.</li>
+        <li><strong>Politics:</strong> In <em>Ghosts of My Life</em>, Fisher argues that the welfare state, free art schools, and public broadcasting created the conditions for artists like Eno to emerge — working-class and lower-middle-class kids given time and institutional support to experiment. The "green world" is inseparable from the social infrastructure that made it possible. Its disappearance is aesthetic <em>and</em> political.</li>
+        <li><strong>Modern resonance:</strong> Ambient has become the dominant mood of 2020s electronic music — from the "ambient renaissance" (Visible Cloaks, Huerco S., Kali Malone) to its absorption into playlist culture as productivity background. Fisher would note the irony: Eno's radical proposal — music that changes your relationship to space and time — has been captured by the attention economy as functional wallpaper for knowledge work.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Brian Eno — <a class="yt-link" href="https://www.youtube.com/playlist?list=PLMxy067kbpQheEs28AXiNKTJlzT0yMbfi" target="_blank"><em>Another Green World</em></a></li>
@@ -495,12 +808,21 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Home" data-valence="Resistant">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Post-Punk</div>
         <div class="genre-meta">1977–84 · UK</div>
         <div class="genre-oneliner">Punk's energy filtered through art-school ambition and electronic experimentation.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Home</span>
+          <span class="tag tag--valence">Resistant</span>
+          <span class="tag tag--concept">beyond the pleasure principle</span>
+          <span class="tag tag--concept">death drive</span>
+          <span class="tag tag--concept">curtain of Maya</span>
+          <span class="tag tag--concept">the hideous machineries</span>
+        </div>
+        <div class="genre-tagline">Fisher's home territory — the genre he theorized most intensely. Joy Division went beyond pleasure and its refusal to access something Freud called the death drive. Curtis's voice channelled the psychic damage of deindustrialization before it had a political name. The cold, cavernous production was the sound of the machinery behind the world's surface made audible.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -509,7 +831,12 @@
       <h4>Key Figures</h4>
       <p>Joy Division, Wire, Siouxsie and the Banshees, Cabaret Voltaire, The Fall, Gang of Four, Magazine.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Fisher's home genre. Where the political and the sonic first fully merged for him — working-class northern English experience rendered in cold, electronic-inflected sound. Joy Division is his touchstone.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Fisher's home genre — the one he theorized most intensely. Joy Division went "beyond the pleasure principle altogether" (a direct Freud reference): past pop's oscillation between thrill and frustrated hedonism, past Jagger's Miltonian swagger, past Iggy's negated carnival, past Roxy's lounge-lizard melancholy. They accessed the death drive — a compulsion toward dissolution that operates beneath pleasure entirely. Curtis's voice didn't perform emotion; it <em>transmitted</em> it, involuntarily.</li>
+        <li><strong>Culture:</strong> Fisher writes in <em>Ghosts of My Life</em> that Joy Division "followed Schopenhauer through the curtain of Maya" — past the illusory surface of the world — and "went outside Burroughs' Garden of Delights" — past the narcotic seductions of consumer reality — "to examine the hideous machineries that produce the world-as-appearance." Behind the veil: not hidden truth, but grinding, indifferent apparatus. Post-punk's achievement was making this machinery audible — Hannett's production turned Manchester rehearsal rooms into echoing voids.</li>
+        <li><strong>Politics:</strong> Curtis's lyrics channelled a collective dread that didn't yet have a political name — the psychic damage of deindustrialization, the collapse of northern England's social-democratic settlement. Fisher reads Joy Division not as romantic tragedy but as seismograph: working-class experience registered at the level of the nervous system before it could be articulated as politics. The bleakness is structural, not personal.</li>
+        <li><strong>Modern resonance:</strong> Post-punk's method — absorbing electronic, dub, and avant-garde ideas into guitar-based music — has been the template for every subsequent "guitar music that doesn't sound like guitar music" movement. Modern artists from Dry Cleaning to Black Midi to Squid inherit the angular, ideas-driven approach. More importantly, Fisher's reading of Joy Division shaped how an entire generation of writers and musicians think about the relationship between sound and political economy.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Joy Division — <a class="yt-link" href="https://www.youtube.com/results?search_query=Joy+Division+Unknown+Pleasures+full+album" target="_blank"><em>Unknown Pleasures</em></a>, <a class="yt-link" href="https://www.youtube.com/results?search_query=Joy+Division+Closer+full+album" target="_blank"><em>Closer</em></a></li>
@@ -520,12 +847,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Resistant">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Industrial</div>
         <div class="genre-meta">1975 · UK / Europe</div>
         <div class="genre-oneliner">Music made from noise, tape manipulation, and confrontation.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Resistant</span>
+          <span class="tag tag--concept">cultural engineering</span>
+          <span class="tag tag--concept">reverse-engineering culture</span>
+          <span class="tag tag--concept">theory-fiction</span>
+        </div>
+        <div class="genre-tagline">Fisher valued industrial less for its sound than for its method: treating culture as raw material to be dissected and reassembled, not passively consumed. Throbbing Gristle's "cultural engineering" — the disjunction between surface and content — became the CCRU's operating principle.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -534,7 +869,12 @@
       <h4>Key Figures</h4>
       <p>Throbbing Gristle (who coined the term), SPK, Einstürzende Neubauten, Coil. Throbbing Gristle's label was called Industrial Records.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Less for its sound than for its method: treating culture as something to be dissected and reverse-engineered rather than consumed.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Less for its sound than for its method. Industrial treated culture as raw material to be dissected, reverse-engineered, and reassembled — "cultural engineering" in Throbbing Gristle's phrase. The album title <em>20 Jazz Funk Greats</em> is itself industrial method: a pastoral sleeve photograph concealing music of extreme abrasion. The disjunction between surface and content is the point.</li>
+        <li><strong>Culture:</strong> Industrial pioneered the idea that the artist's role is not self-expression but systems analysis — exposing the violence, control, and manipulation embedded in everyday media and sonic environments. Fisher's CCRU work inherited this directly: "theory-fiction" as cultural dissection.</li>
+        <li><strong>Politics:</strong> By foregrounding the sounds of factories, machinery, and institutional control, industrial made audible the violence that capitalism renders invisible. Coil and Throbbing Gristle's explorations of power, sexuality, and transgression anticipated Fisher's later interest in how neoliberalism operates at the level of affect and desire, not just economics.</li>
+        <li><strong>Modern resonance:</strong> Industrial's DNA runs through noise music, power electronics, and the harsher end of contemporary electronic music (Pharmakon, Prurient, Pan Daijing). Its method of cultural reverse-engineering — treating pop, advertising, and media as systems to be cracked open — anticipates internet-era practices from culture jamming to meme warfare.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Throbbing Gristle — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_k-wdmFfFeWxMS2OBHLSiXpE5Y5eqb9a9s" target="_blank"><em>20 Jazz Funk Greats</em></a></li>
@@ -544,12 +884,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Futurist">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Synth-Pop</div>
         <div class="genre-meta">1978–85 · UK / Germany</div>
         <div class="genre-oneliner">Pop music made almost entirely with synthesizers and drum machines.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Futurist</span>
+          <span class="tag tag--concept">popular modernism</span>
+          <span class="tag tag--concept">democratic futurism</span>
+          <span class="tag tag--concept">the infrastructure of the new</span>
+        </div>
+        <div class="genre-tagline">Fisher's prime example of "popular modernism" — experimental techniques becoming genuinely popular, reaching the charts without dumbing down. New Order's <em>Blue Monday</em> is the hinge between post-punk's cold interiority and dance music's collective energy. Proof that innovation and mass appeal weren't opposed — until the infrastructure that produced them was dismantled.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -558,7 +906,12 @@
       <h4>Key Figures</h4>
       <p>Gary Numan, Depeche Mode, the Human League, Soft Cell, OMD. New Order are the crucial bridge — Joy Division's surviving members merged post-punk melancholy with electronic dance energy. <em>Blue Monday</em> (1983) is the hinge between the post-punk world and the dance music world.</p>
       <h4>Why Fisher Cares</h4>
-      <p>The New Order connection makes synth-pop personal — the path Joy Division's story takes after Curtis's death. Electronic futurism reaching mass audiences without losing emotional weight.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> The New Order connection makes synth-pop personal — the path Joy Division's story takes after Curtis's death. <em>Blue Monday</em> (1983) proved that electronic futurism could reach mass audiences without losing emotional weight. Fisher saw this as evidence of what he called "popular modernism": experimental techniques becoming genuinely popular, not through dumbing down but through the sheer force of the new.</li>
+        <li><strong>Culture:</strong> Synth-pop is Fisher's prime example of the infrastructure that produced the new. Gary Numan came from a working-class background; Depeche Mode were from Basildon; the Human League were from Sheffield. Free art schools, the dole, and the relative cheapness of synthesizers created the material conditions for this music. In <em>Capitalist Realism</em>, Fisher argues that these conditions have been systematically dismantled.</li>
+        <li><strong>Politics:</strong> Synth-pop reached the charts — it was democratic modernism, not avant-garde elitism. Fisher valued this because it demonstrated that mass culture could be genuinely new, that innovation and popularity weren't opposed. The retreat from this possibility — pop becoming a recycling machine — is one of his central laments.</li>
+        <li><strong>Modern resonance:</strong> Every synth-pop revival since the 2000s (from La Roux to Chvrches to The Weeknd's 80s-inflected production) illustrates Fisher's point about retromania: the form is reproduced, but the conditions that made it new — the social infrastructure, the sense of futurity — are absent. The sound is identical; the meaning has evaporated.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Gary Numan — <a class="yt-link" href="https://www.youtube.com/results?search_query=Gary+Numan+Replicas+full+album" target="_blank"><em>Replicas</em></a></li>
@@ -571,12 +924,20 @@
   <!-- ═══════ II. DANCE REVOLUTION ═══════ -->
   <div class="era-title">II. The Dance Revolution (1980s–90s)</div>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Utopian">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Chicago House</div>
         <div class="genre-meta">1983 · Chicago</div>
         <div class="genre-oneliner">The birth of modern dance music.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Utopian</span>
+          <span class="tag tag--concept">collective jouissance</span>
+          <span class="tag tag--concept">communal world-building</span>
+          <span class="tag tag--concept">acid</span>
+        </div>
+        <div class="genre-tagline">House's dancefloor utopianism — communal, ecstatic, built by marginalized communities from cheap technology — is the original model for what Fisher later theorized as "acid communism." Its commercial absorption into superclub culture is one of his key examples of capitalism neutralizing threats by incorporating them.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -587,7 +948,12 @@
       <h4>Social Context</h4>
       <p>Emerged from Black and Latino gay clubs. Utopian by default: communal, ecstatic, built by marginalized communities who created their own spaces.</p>
       <h4>Why Fisher Cares</h4>
-      <p>House's utopianism is historically significant — and its commercial absorption is a key loss. The communal joy of the dancefloor as collective world-building, not entertainment.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> House's sonic utopianism — the build, the drop, the communal release — is the purest expression of what Fisher calls the "collective jouissance" of the dancefloor. The 303 acid squelch in particular fascinated him: a sound that was alien, machine-generated, and yet produced ecstatic bodily response. The machine and the body fused.</li>
+        <li><strong>Culture:</strong> House emerged from marginalized communities who built their own spaces, their own infrastructure, their own economy. Fisher treats this as a model of autonomous cultural production — not waiting for institutions to provide, but constructing alternatives from available materials. The Warehouse, the Music Box, the loft parties: collective world-building.</li>
+        <li><strong>Politics:</strong> In the <em>Acid Communism</em> introduction, Fisher argues that the communal euphoria of house and rave was politically significant precisely because it was pre-political — a lived experience of shared abundance that exceeded what could be articulated in conventional political language. Its commercial absorption (superclubs, Ministry of Sound) is a key example of capitalism neutralizing threats by incorporating them.</li>
+        <li><strong>Modern resonance:</strong> House never disappeared — it became the infrastructure of global pop (every EDM drop is a house drop). But Fisher would distinguish between house's communal utopianism and its commercial descendants. The question for contemporary house — from South African amapiano to Chicago's renewed scene — is whether it can recover the social function it once served, not just the sound.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Phuture — <a class="yt-link" href="https://www.youtube.com/watch?v=QZSd2pP2dms" target="_blank">"Acid Tracks"</a></li>
@@ -597,12 +963,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Futurist">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Detroit Techno</div>
         <div class="genre-meta">1985 · Detroit</div>
         <div class="genre-oneliner">Kraftwerk filtered through Black American experience in a deindustrializing city.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Futurist</span>
+          <span class="tag tag--concept">Afrofuturism</span>
+          <span class="tag tag--concept">futurism from ruins</span>
+          <span class="tag tag--concept">deindustrialization</span>
+        </div>
+        <div class="genre-tagline">Working-class Black kids in a collapsing auto city imagined the future through the machines that displaced their parents. Fisher reads Detroit and Manchester as mirror cities — futurism built from the ruins of industrial capitalism, by the people it abandoned. Kodwo Eshun's <em>More Brilliant than the Sun</em> is the key theoretical companion.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -613,7 +987,12 @@
       <h4>Social Context</h4>
       <p>Working-class Black kids in a collapsing auto-industry city, imagining the future through machines. Detroit was post-industrial before the term existed.</p>
       <h4>Why Fisher Cares</h4>
-      <p>The sonic counterpart to everything Fisher writes about deindustrialization in northern England — futurism built from the ruins of industrial capitalism, by the people it abandoned.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> The sonic counterpart to everything Fisher writes about deindustrialization. Derrick May's description — "George Clinton and Kraftwerk stuck in an elevator" — captures the aesthetic perfectly: African-American funk and European electronic futurism compressed into something neither could produce alone. The coldness isn't emptiness; it's precision applied to feeling.</li>
+        <li><strong>Culture:</strong> Techno is Fisher's strongest evidence for what Kodwo Eshun calls "Afrofuturism" in <em>More Brilliant than the Sun</em> (1998) — Black artists using technology to construct futures rather than narrate oppression. Underground Resistance's militancy (balaclavas, anonymity, anti-corporate stance) made this political position explicit. Fisher drew on Eshun's work throughout his career.</li>
+        <li><strong>Politics:</strong> Working-class Black kids in a collapsing auto-industry city imagined the future through the very machines that had displaced their parents. Fisher reads this as futurism built from the ruins of industrial capitalism — the creative response to deindustrialization that northern England would produce in parallel through post-punk and rave. Detroit and Manchester are mirror cities in his account.</li>
+        <li><strong>Modern resonance:</strong> Berlin's techno scene — the post-reunification clubs, the 72-hour Berghain weekends — extended Detroit's model into European social space. Contemporary techno (from Objekt to Avalon Emerson to the Ugandan-Nyege Nyege axis) continues to explore the futurist-communal tension Fisher identified: technology as liberation tool or as another apparatus of control.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Cybotron — <a class="yt-link" href="https://www.youtube.com/watch?v=YT4qqZHN8no" target="_blank">"Clear"</a></li>
@@ -623,12 +1002,21 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Mourned" data-valence="Utopian">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Rave & Hardcore</div>
         <div class="genre-meta">1988–93 · UK</div>
         <div class="genre-oneliner">When house and techno crossed the Atlantic and detonated.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Mourned</span>
+          <span class="tag tag--valence">Utopian</span>
+          <span class="tag tag--concept">acid communism</span>
+          <span class="tag tag--concept">popular modernism</span>
+          <span class="tag tag--concept">the Criminal Justice Act</span>
+          <span class="tag tag--concept">suppressed utopia</span>
+        </div>
+        <div class="genre-tagline">The last mass working-class cultural explosion in Britain — when collective joy was a political act. The state legislated against "repetitive beats." Fisher's <em>Acid Communism</em> argues this suppression was deliberate: rave threatened neoliberalism by demonstrating, in practice, that shared abundance outside the logic of work was possible.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -639,7 +1027,12 @@
       <h4>Social Context</h4>
       <p>The "Second Summer of Love" (1988). Ecstasy, sound-system culture, working-class youth energy. The Criminal Justice Act (1994) criminalized raves by targeting "music characterised by the emission of a succession of repetitive beats."</p>
       <h4>Why Fisher Cares</h4>
-      <p>The last genuinely popular working-class cultural explosion in Britain — when the future still felt possible and collective joy was a political act. The state shutting it down is one of Fisher's key examples of capitalist realism closing off alternatives.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Rave's sonic escalation — faster, harder, more manic — was itself a form of collective demand: more intensity, more communality, more future. The breakbeat's fragmentation and reassembly echoed the Deleuzian concepts the CCRU was working with simultaneously: deterritorialization, schizo-analysis, accelerationism as cultural practice.</li>
+        <li><strong>Culture:</strong> The last genuinely popular working-class cultural explosion in Britain. Not a subculture in the Birmingham School sense — too big, too cross-class, too chemically fuelled for that framework. Fisher saw rave as "popular modernism" at its peak: millions of people participating in something genuinely unprecedented, built from pirate radio, illegal venues, and collective improvisation.</li>
+        <li><strong>Politics:</strong> The Criminal Justice Act (1994) targeted "music characterised by the emission of a succession of repetitive beats" — the state literally legislating against a rhythm. In his unfinished <em>Acid Communism</em>, Fisher argued this suppression was deliberate: rave's communal euphoria threatened the emerging neoliberal order because it demonstrated, in practice, that shared joy outside the logic of work and competition was possible. The party was a political act; shutting it down was a political act too.</li>
+        <li><strong>Modern resonance:</strong> Rave nostalgia itself has become a cultural industry — from the <em>Human Traffic</em> revival to 90s-themed club nights. Fisher would read this as symptomatic: we can reproduce the aesthetics of collective euphoria but not the conditions that generated it. However, the global resurgence of illegal raves during the 2020 lockdowns briefly recaptured something of the original political charge — communal gathering as an act of refusal.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>The Prodigy — <a class="yt-link" href="https://www.youtube.com/watch?v=cSTBFZ-To2E" target="_blank">"Charly"</a></li>
@@ -649,12 +1042,22 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Mourned" data-valence="Resistant Futurist">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Jungle & Drum and Bass</div>
         <div class="genre-meta">1992 · London</div>
         <div class="genre-oneliner">Rave's breakbeats accelerated, chopped, and layered over deep sub-bass.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Mourned</span>
+          <span class="tag tag--valence">Resistant</span>
+          <span class="tag tag--valence">Futurist</span>
+          <span class="tag tag--concept">CCRU</span>
+          <span class="tag tag--concept">text at sample velocity</span>
+          <span class="tag tag--concept">pirate radio</span>
+          <span class="tag tag--concept">diasporic futurism</span>
+        </div>
+        <div class="genre-tagline">Central to the CCRU — Fisher said the collective tried to do with writing what jungle did with sound: "text at sample velocity." Kode9, who later founded Hyperdub and released Burial, was a CCRU member. The line from jungle to dubstep runs directly through Fisher's intellectual milieu. Pirate radio's crackle becomes Burial's signature texture.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -665,7 +1068,12 @@
       <h4>Social Context</h4>
       <p>Predominantly Black British, emerging from London's multicultural inner city. The Caribbean diaspora meeting British electronic music — Jamaican sound-system culture spliced with rave energy.</p>
       <h4>Why Fisher Cares</h4>
-      <p>The UK's unique contribution: futurism rooted in diasporic Black experience, pirate radio, and working-class London. Burial's music is haunted by jungle's ghost — those pirate radio transmissions, half-heard through static.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> The UK's unique contribution — fast on top, slow and heavy on the bottom. This dual-speed structure created an entirely new rhythmic language. The chopped "Amen break" became the most recycled sound in electronic music history, and Fisher treated its endless mutation as an example of how Black British culture produced genuine sonic innovation from minimal materials.</li>
+        <li><strong>Culture:</strong> Jungle was central to the CCRU. Fisher said the collective "was trying to do with writing what Jungle, with its samples from <em>Predator</em>, <em>Terminator</em> and <em>Blade Runner</em>, was doing in sound: 'text at sample velocity.'" Kode9, who would later found Hyperdub and release Burial, was a CCRU member — the line from jungle to dubstep runs directly through Fisher's intellectual milieu. Pirate radio — Kool FM broadcasting from tower-block rooftops — was the infrastructure, and its static would become Burial's signature texture.</li>
+        <li><strong>Politics:</strong> Futurism rooted in diasporic Black experience and working-class London. The Caribbean sound-system tradition meeting British electronic innovation. Fisher valued jungle because it was genuinely multicultural in practice, not as a slogan — the music itself was a fusion that could only have emerged from London's specific demographic mix.</li>
+        <li><strong>Modern resonance:</strong> Jungle's DNA is everywhere in contemporary UK music: grime's rhythmic aggression, Burial's ghostly atmospheres, the footwork scene's breakbeat manipulation. The 2020s jungle revival (via labels like Hooversound) suggests the form still has unrealized potential. More broadly, pirate radio's model — decentralized, community-built, unlicensed — anticipates internet-era independent distribution.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>LTJ Bukem — <a class="yt-link" href="https://www.youtube.com/results?search_query=LTJ+Bukem+Music+1993" target="_blank">"Music"</a></li>
@@ -684,12 +1092,19 @@
   <!-- ═══════ III. THE BRANCHING ═══════ -->
   <div class="era-title">III. The Branching (Mid-90s–2000s)</div>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Mourning">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Trip-Hop</div>
         <div class="genre-meta">1991 · Bristol</div>
         <div class="genre-oneliner">Slow, melancholic electronic music built from hip-hop beats, dub bass, and cinematic textures.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--concept">memory as medium</span>
+          <span class="tag tag--concept">deflation of expectations</span>
+        </div>
+        <div class="genre-tagline">An early signal of hauntology — music that sounds like it's remembering something rather than living it. Samples arrive wrapped in the texture of their sources; the music is already a memory at the moment of creation. Portishead's <em>Third</em> reflects what Fisher calls in <em>Capitalist Realism</em> the "deflation of all expectations."</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -698,7 +1113,12 @@
       <h4>Key Figures</h4>
       <p>Massive Attack, Portishead, Tricky. Bristol was the epicenter — a city with its own sound-system tradition and long dub influence.</p>
       <h4>Why Fisher Cares</h4>
-      <p>An early signal of hauntology: music that sounds like it's remembering something rather than living it. Portishead's <em>Third</em> (2008) is one of the bleakest records in his canon.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> An early signal of hauntology: music that sounds like it's remembering something rather than living it. Trip-hop's samples — pulled from film soundtracks, vinyl crackle, old soul records — arrive wrapped in the texture of their sources. The music is already a memory at the moment of creation.</li>
+        <li><strong>Culture:</strong> Bristol's isolation from London gave it a distinct sonic identity rooted in the city's own sound-system tradition and West Indian diaspora. Fisher valued this kind of geographic specificity — culture shaped by place, class, and community rather than by market categories. Bristol produced something London couldn't have.</li>
+        <li><strong>Politics:</strong> Portishead's <em>Third</em> (2008) is one of the bleakest records in Fisher's canon — a sound stripped of all warmth, reflecting what he describes in <em>Capitalist Realism</em> as the "deflation of all expectations." Tricky's <em>Maxinquaye</em> is politically charged in a different way: paranoid, claustrophobic, the sound of urban England closing in. Fisher reads both as sonic documents of post-Thatcher Britain.</li>
+        <li><strong>Modern resonance:</strong> Trip-hop's downtempo, sample-based, atmospheric approach runs through contemporary artists like Dean Blunt, Tirzah, and the darker end of the UK R&B spectrum. The Bristol lineage continues through Young Echo and the city's ongoing experimental scene.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Massive Attack — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_nd4LborPNxR-W0gX3HkfJP9LTTSov6gG0" target="_blank"><em>Mezzanine</em></a></li>
@@ -708,12 +1128,21 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Mourned" data-valence="Utopian Mourning">
     <summary>
       <div class="genre-header">
         <div class="genre-name">UK Garage & 2-Step</div>
         <div class="genre-meta">1994 · London</div>
         <div class="genre-oneliner">House music with shuffled, syncopated rhythms and R&B vocal samples.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Mourned</span>
+          <span class="tag tag--valence">Utopian</span>
+          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--concept">pirate radio crackle</span>
+          <span class="tag tag--concept">aspirational optimism</span>
+          <span class="tag tag--concept">commercialization as defeat</span>
+        </div>
+        <div class="genre-tagline">What Burial is mourning. The crackle on his records is pirate radio static from UKG transmissions — the sound of a signal barely reaching you. Garage's brief aspirational optimism in late-90s London faded as the scene was commercialized. The party ended; nothing replaced it.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -724,7 +1153,12 @@
       <h4>Social Context</h4>
       <p>Aspirational, tied to a brief moment of working-class optimism in late-90s London. Champagne, sharp clothes, garage raves. A scene that felt, briefly, like it owned the future.</p>
       <h4>Why Fisher Cares</h4>
-      <p>UK garage is the immediate ancestor of dubstep and grime, and what Burial is mourning — pirate radio sets and 2-step raves that faded as the genre was commercialized. The crackle on Burial's records is pirate radio static from UKG transmissions.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> UK garage is what Burial is mourning. The crackle on Burial's records is pirate radio static from UKG transmissions — the sound of a signal barely reaching you. The glossy, soulful production of 2-step, degraded through memory and distance, becomes the raw material of hauntology. Fisher's concept of the "eerie" — something present where there should be nothing — applies directly to those ghostly vocal samples on <em>Untrue</em>, pitched-up R&B divas stripped of their original context.</li>
+        <li><strong>Culture:</strong> UKG is Fisher's example of a brief, bright cultural moment that was subsequently closed down — not by legislation (as with rave) but by commercialization. The garage raves, the pirate radio sets, the sharp-dressed working-class aspiration: all absorbed into the mainstream and neutralized. The scene's optimism — "we own the future" — didn't survive contact with the market.</li>
+        <li><strong>Politics:</strong> UK garage was aspirational and tied to a moment of working-class optimism in late-90s London. Fisher reads its collapse as part of the broader political story: New Labour promised modernity and delivered gentrification. The champagne-and-sharp-clothes energy of garage reflected a genuine belief that things were getting better; its disappearance reflected the hollowing out of that promise.</li>
+        <li><strong>Modern resonance:</strong> UK garage's descendants — grime, dubstep, the broader "bass music" continuum — dominate British electronic music. The 2020s UKG revival (PinkPantheress, Interplanetary Criminal) suggests the form's emotional appeal is undiminished, though Fisher would ask whether the revival reproduces the sound or the social infrastructure that made it meaningful.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>MJ Cole — <a class="yt-link" href="https://www.youtube.com/results?search_query=MJ+Cole+Sincere" target="_blank">"Sincere"</a></li>
@@ -734,12 +1168,20 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">IDM</div>
         <div class="genre-meta">1991 · UK / Europe</div>
         <div class="genre-oneliner">"Intelligent dance music" — electronic music for listening, not dancing.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Generative</span>
+          <span class="tag tag--concept">the eerie</span>
+          <span class="tag tag--concept">hauntology before the name</span>
+          <span class="tag tag--concept">warped nostalgia</span>
+        </div>
+        <div class="genre-tagline">Boards of Canada's <em>Music Has the Right to Children</em> is hauntology before the term existed — warped tape, children's TV samples, faded synths evoking a half-remembered broadcast from a childhood that may not have happened. Fisher's concept of "the eerie," defined in <em>The Weird and the Eerie</em>, finds its purest sonic expression here.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -748,7 +1190,12 @@
       <h4>Key Figures</h4>
       <p>Aphex Twin, Autechre, Boards of Canada, Squarepusher. Warp Records (Sheffield) was the key label — their <em>Artificial Intelligence</em> compilation (1992) defined the territory.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Boards of Canada are especially important. <em>Music Has the Right to Children</em> (1998) uses warped tape, children's TV samples, and faded synths — hauntology before the term existed. A half-remembered educational broadcast from a childhood that may not have happened.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Boards of Canada are especially important. <em>Music Has the Right to Children</em> (1998) uses warped tape, children's TV samples, and faded synths — hauntology before the term existed. The music evokes a half-remembered educational broadcast from a childhood that may not have happened. Fisher's concept of "the eerie" — defined in <em>The Weird and the Eerie</em> (2017) as the presence of something where there should be nothing, or absence where there should be something — finds its purest sonic expression here.</li>
+        <li><strong>Culture:</strong> IDM proved that dance music's tools could produce art for sustained, solitary listening — not a retreat from the dancefloor but an expansion of what electronic music could do. Warp Records (Sheffield) was the key institution, and Fisher valued it as another example of a regional, independent label producing world-class innovation. The <em>Artificial Intelligence</em> compilation (1992) defined the territory with its image of a robot listening to records in an armchair.</li>
+        <li><strong>Politics:</strong> Aphex Twin's refusal of conventional artist identity (the distorted face, the fake biographies, the deliberate mystification) anticipated Fisher's interest in how pop music can resist the demand for personal narrative and "authenticity" that capitalism imposes. Autechre's severe digital abstraction takes this further: music that refuses to be about anything except its own construction.</li>
+        <li><strong>Modern resonance:</strong> IDM's influence on contemporary electronic music is pervasive — from the glitchy textures of producers like Sophie and AG Cook (PC Music) to the resurgence of interest in Boards of Canada's degraded nostalgia. The YouTube phenomenon of <em>Everywhere at the End of Time</em> (The Caretaker) — which went viral with Gen Z audiences — suggests that IDM/hauntology's concerns about memory, media decay, and lost futures resonate far beyond their original audience.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Aphex Twin — <a class="yt-link" href="https://music.youtube.com/browse/MPREb_gaJgUErCmNd" target="_blank"><em>Selected Ambient Works 85–92</em></a></li>
@@ -758,12 +1205,21 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Home" data-valence="Mourning">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Dubstep</div>
         <div class="genre-meta">1998 · South London</div>
         <div class="genre-oneliner">Slow, bass-heavy, spacious dance music built on dub's principles.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Home</span>
+          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--concept">crackle</span>
+          <span class="tag tag--concept">temporal disjunction</span>
+          <span class="tag tag--concept">sonic hauntology</span>
+          <span class="tag tag--concept">the space where the crowd used to be</span>
+        </div>
+        <div class="genre-tagline">Fisher's 2000s home genre. Burial's <em>Untrue</em> is the album he wrote about most passionately — crackle as temporal disjunction, ghostly vocal samples as mourning for the rave, reverb as the space where the crowd used to be. The definitive sound of hauntology: listening to a memory, not an event.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -772,7 +1228,12 @@
       <h4>Key Figures</h4>
       <p>Burial, Kode9, Mala, Digital Mystikz, Loefah. Club nights: DMZ, FWD>>. Labels: Hyperdub, Tempa. Kode9 runs Hyperdub and is himself a theorist — his book <em>Sonic Warfare</em> overlaps with Fisher's thinking.</p>
       <h4>Why Fisher Cares</h4>
-      <p>His home genre for the 2000s. Burial's <em>Untrue</em> (2007) is the album Fisher wrote about most passionately — its crackle, its ghostly vocal samples, its mourning for the rave. Where dub's sonic methods meet the post-rave melancholy of a scene looking back at futures it lost.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> His home genre for the 2000s. Burial's <em>Untrue</em> (2007) is the album Fisher wrote about most passionately on K-Punk — its crackle, its ghostly vocal samples, its mourning for the rave. The crackle is theoretically load-bearing: vinyl surface noise and pirate radio static on a digital track signals temporal disjunction — two times at once, the "now" of the music and the ghost of a medium it never actually inhabited. It tells you the signal is decayed, that you're listening to a memory, not an event.</li>
+        <li><strong>Culture:</strong> Dubstep emerged from the same South London ecosystem that had produced UK garage, but turned inward. Where garage was aspirational, dubstep was cavernous and introspective. Kode9 runs Hyperdub and is himself a theorist — his book <em>Sonic Warfare</em> explores bass as a weapon, sound as a tool of power and affect. Fisher and Kode9's intellectual overlap (both CCRU veterans) means dubstep's theoretical self-awareness isn't accidental: this was music made by people who understood what they were doing at a conceptual level.</li>
+        <li><strong>Politics:</strong> Fisher reads dubstep — early, pre-brostep dubstep — as the sonic aftermath of rave's defeat. The communal ecstasy has gone; what remains is the reverb, the space where the crowd used to be. In <em>Ghosts of My Life</em>, he treats Burial's music as the definitive sound of hauntology: mourning not a specific loss but the capacity for collective futurity itself. The distinction from later "brostep" (Skrillex etc.) is critical — that's commercial spectacle, not sonic mourning.</li>
+        <li><strong>Modern resonance:</strong> Dubstep's bass-weight and spatial awareness run through contemporary club music worldwide — from the deconstructed club of Arca and Lotic to the bass music of South Africa and South America. Burial himself continues to release music that evolves the form without betraying it. The question Fisher would pose: can bass music's physical, communal power be reconnected to the collective social function it once served, or is it now permanently individualized through headphones and streaming?</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Burial — <a class="yt-link" href="https://www.youtube.com/watch?v=Q4OQV1XoD1o" target="_blank"><em>Untrue</em></a></li>
@@ -785,12 +1246,21 @@
   <!-- ═══════ IV. HAUNTOLOGY ═══════ -->
   <div class="era-title">IV. Hauntology & the Aftermath (2000s–10s)</div>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Theorized" data-valence="Mourning">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Hauntology</div>
         <div class="genre-meta">2000s · UK</div>
         <div class="genre-oneliner">Not a genre — a tendency. Music saturated with the textures of dead or dying media.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Theorized</span>
+          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--concept">lost futures</span>
+          <span class="tag tag--concept">the slow cancellation of the future</span>
+          <span class="tag tag--concept">the agency of the virtual</span>
+          <span class="tag tag--concept">spectres of Marx</span>
+        </div>
+        <div class="genre-tagline">Fisher's defining concept, borrowed from Derrida and repurposed for sonic culture. Crackle, tape hiss, and degraded samples are the texture of absent futures acting on the present. The "lost futures" aren't abstract — they're the futures promised by the welfare state, free art schools, and public broadcasting, dismantled under Thatcher and never rebuilt.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -803,15 +1273,30 @@
         <li><strong>William Basinski</strong> — <a class="yt-link" href="https://www.youtube.com/results?search_query=William+Basinski+Disintegration+Loops" target="_blank"><em>The Disintegration Loops</em></a> (2002): tape loops that physically deteriorate as they play.</li>
         <li><strong>Burial</strong> and <strong>Boards of Canada</strong> also belong here, from dubstep and IDM respectively.</li>
       </ul>
+      <h4>Why Fisher Cares</h4>
+      <ul>
+        <li><strong>Aesthetics:</strong> Hauntology is Fisher's central concept applied to music — the term borrowed from Derrida's <em>Specters of Marx</em> (1993) and repurposed for sonic culture. In <em>Ghosts of My Life</em>, Fisher defines it as "the agency of the virtual" — the way absent futures and dead pasts continue to act on the present. Crackle, tape hiss, and degraded samples are the sonic texture of this condition: music arriving through damaged equipment from a time that never existed.</li>
+        <li><strong>Culture:</strong> Fisher and Simon Reynolds jointly developed the application of hauntology to music in the mid-2000s. The concept gave a name to something several artists were already doing independently: The Caretaker, Ghost Box, Basinski, Burial, Boards of Canada. Fisher's contribution was to connect these dispersed practices into a coherent cultural diagnosis — not a movement but a shared symptom.</li>
+        <li><strong>Politics:</strong> Hauntology is inseparable from Fisher's political argument. The "lost futures" aren't abstract — they're the futures promised by the post-war social democratic settlement: public housing, free education, the welfare state, public broadcasting. These institutions produced the culture Fisher loved (post-punk, rave, the BBC Radiophonic Workshop). Their dismantlement under Thatcher and New Labour is what hauntological music mourns. The crackle is the sound of that infrastructure decaying.</li>
+        <li><strong>Modern resonance:</strong> Hauntology has become so widely adopted that it risks losing its critical edge — "nostalgic aesthetic" is now a design trend, not a political diagnosis. But the underlying condition Fisher identified hasn't been resolved. The viral success of The Caretaker's <em>Everywhere at the End of Time</em> with Gen Z audiences suggests the sense of cultural belatedness and lost futurity Fisher described has only intensified. The question is whether hauntology can evolve beyond mourning into the recovery Fisher was attempting with <em>Acid Communism</em>.</li>
+      </ul>
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Diagnosed" data-valence="Symptomatic">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Hypnagogic Pop & Vaporwave</div>
         <div class="genre-meta">2009 · US / Internet</div>
         <div class="genre-oneliner">Half-remembered pop from an era that didn't happen.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Diagnosed</span>
+          <span class="tag tag--valence">Symptomatic</span>
+          <span class="tag tag--concept">capitalist realism</span>
+          <span class="tag tag--concept">ironic distance as complicity</span>
+          <span class="tag tag--concept">postmodern pastiche</span>
+        </div>
+        <div class="genre-tagline">Fisher engaged cautiously. Vaporwave potentially illustrates capitalist realism — you can't satirize consumer culture without being absorbed by it. Ironic distance from the mall isn't resistance; it's the dominant mode of capitalist subjectivity itself. Hauntology mourns lost futures; vaporwave aestheticizes the rubble without naming what was lost.</div>
       </div>
     </summary>
     <div class="genre-body">
@@ -820,7 +1305,12 @@
       <h4>Key Figures</h4>
       <p>Ariel Pink, James Ferraro, Oneohtrix Point Never, Macintosh Plus (vaporwave).</p>
       <h4>Why Fisher Cares</h4>
-      <p>Engaged cautiously. Vaporwave potentially illustrates capitalist realism — you can't satirize consumer culture without being absorbed by it — but Fisher worried it was too comfortable in its irony. Hauntology mourns lost futures; vaporwave aestheticizes the rubble.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Fisher engaged cautiously. Vaporwave applies hauntology's degraded-media technique to American consumer culture — mall muzak, corporate smooth jazz, VHS tracking errors — rather than to British public infrastructure. The results are sonically compelling but aesthetically ambiguous: is slowing down a Diana Ross sample to a woozy crawl a critique of consumer capitalism or a form of complicity?</li>
+        <li><strong>Culture:</strong> Vaporwave is the first genre native to the internet's logic of infinite reproduction and zero context. It strips music of authorship, intention, and history, leaving only texture and mood. Fisher would recognize this as a limit case of postmodern pastiche — culture consuming itself — but he also acknowledged that Oneohtrix Point Never's <em>Replica</em> (2011) operated at a higher level, using the same materials to produce genuine unease.</li>
+        <li><strong>Politics:</strong> Fisher worried that vaporwave was "too comfortable in its irony." In <em>Capitalist Realism</em>, he argues that ironic distance from consumer culture doesn't constitute resistance — it's the dominant mode of capitalist subjectivity itself. You can laugh at the mall while the mall eats you. Hauntology mourns lost futures; vaporwave aestheticizes the rubble without articulating what was lost or why.</li>
+        <li><strong>Modern resonance:</strong> Vaporwave's offspring — mallsoft, synthwave, lo-fi hip-hop, the entire "aesthetic" internet — have become the default background texture of online culture. This mass adoption of the nostalgic-degraded surface, stripped of its critical content, is arguably the most vivid illustration of Fisher's thesis: capitalist realism absorbs its own critique and sells it back as vibes.</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Oneohtrix Point Never — <a class="yt-link" href="https://www.youtube.com/results?search_query=Oneohtrix+Point+Never+Replica+full+album" target="_blank"><em>Replica</em></a></li>
@@ -830,49 +1320,104 @@
     </div>
   </details>
 
-  <details class="genre-card">
+  <details class="genre-card" data-relation="Diagnosed" data-valence="Symptomatic">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Post-Dubstep</div>
         <div class="genre-meta">2008 · UK</div>
         <div class="genre-oneliner">The generation after dubstep, working in its ruins.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Diagnosed</span>
+          <span class="tag tag--valence">Symptomatic</span>
+          <span class="tag tag--concept">Another Grey World</span>
+          <span class="tag tag--concept">green to ash</span>
+          <span class="tag tag--concept">the impasse</span>
+          <span class="tag tag--concept">withdrawal from the collective</span>
+        </div>
+        <div class="genre-tagline">Where the lineage arrives and Fisher's diagnostic tension is sharpest. Darkstar's <em>North</em> — "Another Grey World" — is Eno's lush landscape turned to ash. James Blake's retreat into interiority accepts the depleted landscape as a destination. Music made in conditions of capitalist realism — but naming the impasse is the precondition for escaping it.</div>
       </div>
     </summary>
     <div class="genre-body">
       <h4>The Sound</h4>
       <p>Introspective, textural electronic music. Keeps dubstep's spatial awareness and bass weight but abandons dancefloor conventions. Ranges from bleak synth-pop to fractured glitch to crushed, hazy techno.</p>
       <h4>Key Figures</h4>
-      <p>Darkstar, Actress, Andy Stott, Laurel Halo, Raime, Demdike Stare. Darkstar's <em>North</em> (2010) — Fisher's "Another Grey World" — sounds like it was recorded in an abandoned retail park.</p>
+      <p>Darkstar, Actress, Andy Stott, Laurel Halo, Raime, Demdike Stare, James Blake. Darkstar's <em>North</em> (2010) — Fisher's "Another Grey World" — sounds like it was recorded in an abandoned retail park. The phrase rewires Eno: where <em>Another Green World</em> (1975) was lush, alien, fertile — a Max Ernst forest teeming with strange life — <em>North</em> is the same landscape turned to ash. The green has been subtracted; what remains is the shape of a world with its vitality removed.</p>
       <h4>Why Fisher Cares</h4>
-      <p>Where the lineage arrives. Music that has absorbed all of the preceding history and emerged where the utopian energy of rave and the futurism of techno have both been exhausted. What remains is atmosphere, memory, and grey.</p>
+      <ul>
+        <li><strong>Aesthetics:</strong> Where the lineage arrives — and where Fisher's diagnostic tension is sharpest. The green-to-grey trajectory is complete. Darkstar's <em>North</em> — Fisher's "Another Grey World" — takes Eno's lush alien landscape and turns it to ash: the same spatial depth, but with all vitality subtracted, like a Max Ernst forest after a fire. What remains is the shape of a world with its capacity for newness removed.</li>
+        <li><strong>Culture:</strong> James Blake's retreat into singer-songwriter interiority struck Fisher as symptomatic: a withdrawal from the collective, communal energy that had made dance music politically significant. Blake's dubstep-inflected vocal music is beautiful, but it accepts the depleted landscape as a final destination rather than a problem to be escaped. Actress's <em>R.I.P.</em> takes a different approach — glitchy, broken, refusing resolution — which Fisher found more productive: damage acknowledged rather than aestheticized.</li>
+        <li><strong>Politics:</strong> Post-dubstep is music made in conditions of capitalist realism — the sense that no alternative to the current order is imaginable. The utopian energy of rave and the futurism of techno have both been exhausted. But Fisher doesn't simply condemn this generation. In <em>Ghosts of My Life</em>, he reads their work as honest documentation of the impasse, which is the necessary precondition for moving past it. You can't escape a trap you can't name.</li>
+        <li><strong>Modern resonance:</strong> The post-dubstep generation splintered into diverse trajectories: Andy Stott into industrial-techno, Laurel Halo into experimental composition, Demdike Stare into archival occultism. This dispersal reflects the absence of a shared scene or collective energy — each artist alone with their tools. The question <em>Acid Communism</em> was beginning to ask: what would it take to reconstitute collective cultural production, not as nostalgia for rave but as a new form adequate to the present?</li>
+      </ul>
       <h4>Key Listening</h4>
       <ul>
         <li>Darkstar — <a class="yt-link" href="https://music.youtube.com/browse/MPREb_126FCCM8nzK" target="_blank"><em>North</em></a></li>
         <li>Actress — <a class="yt-link" href="https://www.youtube.com/results?search_query=Actress+R.I.P.+album" target="_blank"><em>R.I.P.</em></a></li>
         <li>Andy Stott — <a class="yt-link" href="https://music.youtube.com/playlist?list=OLAK5uy_n4ZREuCdkOJDmYaXnG0wpxQG3lDQol0bE" target="_blank"><em>Luxury Problems</em></a></li>
         <li>Demdike Stare — <a class="yt-link" href="https://www.youtube.com/results?search_query=Demdike+Stare+Tryptych" target="_blank"><em>Tryptych</em></a></li>
+        <li>James Blake — <a class="yt-link" href="https://www.youtube.com/results?search_query=James+Blake+Limit+to+Your+Love" target="_blank">"Limit to Your Love"</a></li>
       </ul>
     </div>
   </details>
 
-  <!-- ═══════ V. HOW THEY CONNECT ═══════ -->
-  <div class="era-title">V. How They Connect</div>
+  <!-- ═══════ V. ACID COMMUNISM ═══════ -->
+  <div class="era-title">V. The Unfinished Turn — Acid Communism</div>
+
+  <details class="genre-card" data-relation="Unfinished" data-valence="Recuperative">
+    <summary>
+      <div class="genre-header">
+        <div class="genre-name">Acid Communism</div>
+        <div class="genre-meta">2013–17 · Unfinished</div>
+        <div class="genre-oneliner">Fisher's attempt to stop diagnosing and start recovering.</div>
+        <div class="genre-tags">
+          <span class="tag tag--relation">Unfinished</span>
+          <span class="tag tag--valence">Recuperative</span>
+          <span class="tag tag--concept">suppressed utopia</span>
+          <span class="tag tag--concept">consciousness raising</span>
+          <span class="tag tag--concept">the desire hasn't disappeared</span>
+        </div>
+        <div class="genre-tagline">The decisive turn away from hauntology's mourning. What we lost was real, it was stolen, and the desire for it hasn't gone away — it's been privatized, not eliminated. Fisher was trying to become what he'd always admired in the best music: a transmission from a future that hasn't arrived yet but might still.</div>
+      </div>
+    </summary>
+    <div class="genre-body">
+      <h4>The Concept</h4>
+      <p>Fisher's unfinished book — only the introduction survives, published posthumously. <em>Acid Communism</em> marks a decisive turn away from hauntology's mourning posture toward something constructive. "Acid" means both the psychedelic experience and the acid of acid house — consciousness expansion in both the chemical and the communal sense. "Communism" means the real experience of collective joy and shared abundance, not Soviet bureaucracy.</p>
+      <h4>The Argument</h4>
+      <p>The counterculture of the 1960s and the rave culture of the late '80s/early '90s weren't just hedonistic escapes. They were genuine experiments in collective consciousness-raising — moments when large numbers of people briefly experienced a different way of being together, outside the logic of work, competition, and private accumulation. The problem wasn't that these experiments failed on their own terms. The problem was that they were <em>deliberately suppressed</em> — the war on drugs, the Criminal Justice Act, the defunding of public institutions — because they threatened the emerging neoliberal order.</p>
+      <h4>Why It Matters for the Lineage</h4>
+      <p>Hauntology says: <em>look what we lost</em>. Acid Communism says: <em>what we lost was real, it was stolen, and the desire for it hasn't gone away</em>. The shift reframes the entire musical lineage. Rave wasn't a failed utopia — it was a suppressed one. The communal euphoria of the dancefloor wasn't naive; it was a genuine experiment in living differently, and specific political forces shut it down. Fisher was trying to stop being a doctor cataloguing symptoms and start being something closer to what he'd always admired in the best music — a transmission from a future that hasn't arrived yet but might still.</p>
+      <h4>Key Reading</h4>
+      <ul>
+        <li>Mark Fisher — <a class="yt-link" href="https://www.youtube.com/results?search_query=Mark+Fisher+Acid+Communism+introduction" target="_blank">"Acid Communism" introduction</a> (posthumous, in <em>K-Punk: Collected Writings</em>)</li>
+        <li>Jeremy Gilbert — <a class="yt-link" href="https://www.youtube.com/results?search_query=Jeremy+Gilbert+acid+communism+Fisher" target="_blank">on Acid Communism and Fisher's unfinished project</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="fisher-quote">
+    <p>In one sense, it is easier to imagine the end of the world than it is to imagine the end of capitalism. But we only have to look at the sheer quantity of utopian cultural production to see that this isn't quite right.</p>
+    <cite>Mark Fisher, "Acid Communism" introduction</cite>
+  </div>
+
+  <!-- ═══════ VI. HOW THEY CONNECT ═══════ -->
+  <div class="era-title">VI. How They Connect</div>
 
   <div class="through-line">
     <h3>The Through-Line</h3>
-    <p style="font-size:15px; color:var(--muted); margin-bottom:16px;">Fisher's narrative is a trajectory from utopia to hauntology.</p>
+    <p style="font-size:15px; color:var(--muted); margin-bottom:16px;">Fisher's narrative is a trajectory from utopia to hauntology — and an unfinished turn toward recovery.</p>
     <ul>
       <li><strong>1960s–70s</strong> — Dub invents the studio as instrument. Krautrock and ambient imagine new sonic worlds. Post-punk and industrial expose the machinery behind the surface.</li>
       <li><strong>1980s</strong> — House and techno emerge from marginalized communities in deindustrializing American cities — the future built from ruins, communal, ecstatic.</li>
-      <li><strong>Late 80s–early 90s</strong> — Rave brings that energy to the UK. The last mass working-class cultural explosion. Jungle adds diasporic complexity.</li>
+      <li><strong>Late 80s–early 90s</strong> — Rave brings that energy to the UK. The last mass working-class cultural explosion. Jungle adds diasporic complexity. The state moves to shut it down.</li>
       <li><strong>Mid–late 90s</strong> — IDM and trip-hop internalize the energy, turn reflective. UK garage has a brief, bright flash of aspirational optimism.</li>
       <li><strong>2000s</strong> — Dubstep mourns the rave from within its aftermath. Hauntology names the condition: culture haunted by futures that never arrived.</li>
       <li><strong>2010s</strong> — Post-dubstep and vaporwave inhabit the grey. The green world has become ash.</li>
+      <li><strong>2013–17</strong> — Fisher begins <em>Acid Communism</em>: the argument that the utopian energies of rave and the counterculture weren't lost but suppressed, and the desire for collective joy hasn't disappeared — it's been privatized. The book was never finished.</li>
     </ul>
   </div>
 
-  <!-- ═══════ VI. WHERE TO EXPLORE ═══════ -->
-  <div class="era-title">VI. Where to Explore</div>
+  <!-- ═══════ VII. WHERE TO EXPLORE ═══════ -->
+  <div class="era-title">VII. Where to Explore</div>
 
   <div class="explore-section">
     <h3>Interactive Maps</h3>
@@ -903,8 +1448,9 @@
   <!-- ═══════ PLAYLIST ═══════ -->
   <div class="playlist">
     <h3>Start Listening</h3>
-    <p class="sub">A compressed playlist tracing the Fisher arc in ~16 tracks.</p>
+    <p class="sub">A compressed playlist tracing the Fisher arc in ~18 tracks.</p>
     <ol>
+      <li><span>D-Generation — <a class="yt-link" href="https://kokoxoka.bandcamp.com/album/entropy-in-the-uk" target="_blank">"The Condition of Muzak"</a></span></li>
       <li><span>King Tubby — <a class="yt-link" href="https://www.youtube.com/results?search_query=King+Tubby+Dub+You+Can+Feel" target="_blank">"Dub You Can Feel"</a></span></li>
       <li><span>Kraftwerk — <a class="yt-link" href="https://www.youtube.com/watch?v=i7i83yoQSo0" target="_blank">"Trans-Europe Express"</a></span></li>
       <li><span>Brian Eno — <a class="yt-link" href="https://www.youtube.com/results?search_query=Brian+Eno+St+Elmo%27s+Fire" target="_blank">"St. Elmo's Fire"</a></span></li>
@@ -921,11 +1467,65 @@
       <li><span>Burial — <a class="yt-link" href="https://www.youtube.com/watch?v=Q4OQV1XoD1o" target="_blank">"Archangel"</a></span></li>
       <li><span>The Caretaker — <a class="yt-link" href="https://www.youtube.com/watch?v=LL998ajnjN4" target="_blank">"All You Are Going to Want to Do Is Get Back There"</a></span></li>
       <li><span>Darkstar — <a class="yt-link" href="https://www.youtube.com/results?search_query=Darkstar+Gold+electronic" target="_blank">"Gold"</a></span></li>
+      <li><span>James Blake — <a class="yt-link" href="https://www.youtube.com/results?search_query=James+Blake+Limit+to+Your+Love" target="_blank">"Limit to Your Love"</a></span></li>
     </ol>
   </div>
 
   <div class="footer-badge">Made with Dia</div>
 </div>
+
+<script>
+var activeFilters = { relation: [], valence: [] };
+
+function toggleFilter(btn) {
+  var type = btn.dataset.filter;
+  var val = btn.dataset.value;
+  var idx = activeFilters[type].indexOf(val);
+  if (idx === -1) {
+    activeFilters[type].push(val);
+    btn.classList.add('active');
+  } else {
+    activeFilters[type].splice(idx, 1);
+    btn.classList.remove('active');
+  }
+  applyFilters();
+}
+
+function resetFilters() {
+  activeFilters = { relation: [], valence: [] };
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  applyFilters();
+}
+
+function applyFilters() {
+  var cards = document.querySelectorAll('.genre-card');
+  var hasRelation = activeFilters.relation.length > 0;
+  var hasValence = activeFilters.valence.length > 0;
+
+  cards.forEach(function(card) {
+    if (!hasRelation && !hasValence) {
+      card.classList.remove('filtered-out');
+      return;
+    }
+
+    var cardRelation = card.dataset.relation || '';
+    var cardValence = card.dataset.valence || '';
+
+    var matchRelation = !hasRelation || activeFilters.relation.some(function(r) {
+      return cardRelation.indexOf(r) !== -1;
+    });
+    var matchValence = !hasValence || activeFilters.valence.some(function(v) {
+      return cardValence.indexOf(v) !== -1;
+    });
+
+    if (matchRelation && matchValence) {
+      card.classList.remove('filtered-out');
+    } else {
+      card.classList.add('filtered-out');
+    }
+  });
+}
+</script>
 
 </body>
 </html>
