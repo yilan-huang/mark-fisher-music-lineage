@@ -439,6 +439,26 @@
     opacity: 0.8;
   }
 
+  /* Cross-reference links (jump to another card) */
+  a.xref-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  a.xref-link:hover {
+    color: var(--bright);
+    border-bottom-color: var(--bright);
+  }
+
+  .genre-card.flash-target {
+    animation: flashcard 1.4s ease;
+  }
+  @keyframes flashcard {
+    0%, 100% { border-color: var(--border); }
+    30% { border-color: var(--accent); box-shadow: 0 0 12px rgba(90,122,154,0.4); }
+  }
+
   /* Filter bar */
   .filter-bar {
     margin-bottom: 24px;
@@ -608,7 +628,6 @@
   <div class="filter-bar">
     <div class="filter-bar__row">
       <span class="filter-bar__label">Relation</span>
-      <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Origin" onclick="toggleFilter(this)">Origin</button>
       <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Home" onclick="toggleFilter(this)">Home</button>
       <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Theorized" onclick="toggleFilter(this)">Theorized</button>
       <button class="filter-btn filter-btn--relation" data-filter="relation" data-value="Mourned" onclick="toggleFilter(this)">Mourned</button>
@@ -617,12 +636,10 @@
     </div>
     <div class="filter-bar__row">
       <span class="filter-bar__label">Valence</span>
-      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Utopian" onclick="toggleFilter(this)">Utopian</button>
-      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Futurist" onclick="toggleFilter(this)">Futurist</button>
       <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Generative" onclick="toggleFilter(this)">Generative</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Futurist" onclick="toggleFilter(this)">Futurist</button>
       <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Resistant" onclick="toggleFilter(this)">Resistant</button>
-      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Mourning" onclick="toggleFilter(this)">Mourning</button>
-      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Symptomatic" onclick="toggleFilter(this)">Symptomatic</button>
+      <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Haunted" onclick="toggleFilter(this)">Haunted</button>
       <button class="filter-btn filter-btn--valence" data-filter="valence" data-value="Recuperative" onclick="toggleFilter(this)">Recuperative</button>
       <button class="filter-btn filter-btn--reset" onclick="resetFilters()">Clear filters</button>
     </div>
@@ -630,20 +647,18 @@
       <span class="legend-trigger">About the labels
         <div class="legend-tooltip">
           <h5><span class="legend-swatch legend-swatch--blue"></span> Relation — How Fisher relates</h5>
-          <p><strong>Origin</strong> — foundational genres, including his own music<br>
-          <strong>Home</strong> — genres he lived inside, wrote from<br>
+          <p><strong>Home</strong> — foundational genres and the ones he lived inside, wrote from<br>
           <strong>Theorized</strong> — analyzed at length to build arguments<br>
           <strong>Mourned</strong> — genres whose loss drives his work<br>
           <strong>Diagnosed</strong> — examined as symptoms of the condition<br>
           <strong>Unfinished</strong> — the project left incomplete</p>
           <h5><span class="legend-swatch legend-swatch--amber"></span> Valence — Political direction</h5>
-          <p><strong>Utopian</strong> — collective joy as political act<br>
-          <strong>Futurist</strong> — imagining the new<br>
-          <strong>Generative</strong> — producing tools others inherit<br>
+          <p><strong>Generative</strong> — a past whose energy Fisher thinks we can draw on now, resources to reactivate<br>
+          <strong>Futurist</strong> — purely forward-facing, trying to create the genuinely new<br>
           <strong>Resistant</strong> — exposing or refusing the dominant order<br>
-          <strong>Mourning</strong> — registering loss<br>
-          <strong>Symptomatic</strong> — embodying the condition<br>
-          <strong>Recuperative</strong> — attempting recovery</p>
+          <strong>Haunted</strong> — registering or embodying the loss<br>
+          <strong>Recuperative</strong> — the explicit attempt to recover what was suppressed</p>
+          <p style="margin-top:8px; font-style:italic;">Valence reflects Fisher's late (Acid Communism) reading — which is why rave and house read as Generative (resources to reactivate) rather than only Haunted (mourned). The three periods are Fisher's own timeline, not the music's.</p>
           <h5><span class="legend-swatch legend-swatch--green"></span> Concepts — Key Fisherian ideas</h5>
           <p>Specific terms and frameworks Fisher uses to read each genre.</p>
         </div>
@@ -654,17 +669,16 @@
   <!-- ═══════ 0. PRELUDE ═══════ -->
   <div class="era-title">0. Prelude — Fisher's Own Music</div>
 
-  <details class="genre-card" data-relation="Origin" data-valence="Resistant">
+  <details class="genre-card" data-relation="Home" data-valence="Resistant">
     <summary>
       <div class="genre-header">
         <div class="genre-name">D-Generation / The Lower Depths</div>
         <div class="genre-meta">1993–95 · Manchester</div>
         <div class="genre-oneliner">Fisher as musician: "psychedelic futurism, techno haunted by the ghost of punk."</div>
         <div class="genre-tags">
-          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--relation">Home</span>
           <span class="tag tag--valence">Resistant</span>
           <span class="tag tag--concept">Nostalgia Conspiracy</span>
-          <span class="tag tag--concept">psychedelic futurism</span>
           <span class="tag tag--concept">theory as sonic practice</span>
         </div>
         <div class="genre-tagline">Before K-Punk, before <em>Capitalist Realism</em>, Fisher made music that already contained the entire argument — sampling Rotten as critique, insisting on modernism over revival, attacking rave's unarticulated utopianism. The theory and the beats were the same activity.</div>
@@ -695,18 +709,17 @@
   <!-- ═══════ I. FOUNDATIONS ═══════ -->
   <div class="era-title">I. The Foundations (1960s–70s)</div>
 
-  <details class="genre-card" data-relation="Origin" data-valence="Generative">
+  <details class="genre-card" data-relation="Home" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Dub</div>
         <div class="genre-meta">Late 1960s · Jamaica</div>
         <div class="genre-oneliner">The art of deconstruction applied to recorded music.</div>
         <div class="genre-tags">
-          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--relation">Home</span>
           <span class="tag tag--valence">Generative</span>
           <span class="tag tag--concept">studio as instrument</span>
           <span class="tag tag--concept">bass as architecture</span>
-          <span class="tag tag--concept">the version</span>
         </div>
         <div class="genre-tagline">The hidden foundation beneath everything Fisher writes about. Dub's innovations — echo as emotional tool, remix as creative form, bass you feel in your chest — flow directly into post-punk, jungle, dubstep, and hauntology. King Tubby invented the method; every genre on this page inherited it.</div>
       </div>
@@ -734,16 +747,15 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Origin" data-valence="Futurist">
+  <details class="genre-card" data-relation="Home" data-valence="Futurist">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Krautrock</div>
         <div class="genre-meta">1968–75 · West Germany</div>
         <div class="genre-oneliner">Experimental rock that rejected Anglo-American blues tradition and reached toward the future.</div>
         <div class="genre-tags">
-          <span class="tag tag--relation">Origin</span>
+          <span class="tag tag--relation">Home</span>
           <span class="tag tag--valence">Futurist</span>
-          <span class="tag tag--concept">popular modernism</span>
           <span class="tag tag--concept">the man-machine</span>
           <span class="tag tag--concept">motorik</span>
         </div>
@@ -781,7 +793,6 @@
           <span class="tag tag--relation">Theorized</span>
           <span class="tag tag--valence">Generative</span>
           <span class="tag tag--concept">the green world</span>
-          <span class="tag tag--concept">generative music</span>
           <span class="tag tag--concept">Another Grey World</span>
         </div>
         <div class="genre-tagline">Eno's ambient is Fisher's "green world" — lush, fertile, full of alien possibility. It's the benchmark: when Fisher calls Darkstar's <em>North</em> "Another Grey World," the green of Eno is what's been lost. The entire hauntological arc is measured against this standard of vanished vitality.</div>
@@ -817,10 +828,8 @@
         <div class="genre-tags">
           <span class="tag tag--relation">Home</span>
           <span class="tag tag--valence">Resistant</span>
-          <span class="tag tag--concept">beyond the pleasure principle</span>
           <span class="tag tag--concept">death drive</span>
-          <span class="tag tag--concept">curtain of Maya</span>
-          <span class="tag tag--concept">the hideous machineries</span>
+          <span class="tag tag--concept">beyond the pleasure principle</span>
         </div>
         <div class="genre-tagline">Fisher's home territory — the genre he theorized most intensely. Joy Division went beyond pleasure and its refusal to access something Freud called the death drive. Curtis's voice channelled the psychic damage of deindustrialization before it had a political name. The cold, cavernous production was the sound of the machinery behind the world's surface made audible.</div>
       </div>
@@ -857,7 +866,6 @@
           <span class="tag tag--relation">Theorized</span>
           <span class="tag tag--valence">Resistant</span>
           <span class="tag tag--concept">cultural engineering</span>
-          <span class="tag tag--concept">reverse-engineering culture</span>
           <span class="tag tag--concept">theory-fiction</span>
         </div>
         <div class="genre-tagline">Fisher valued industrial less for its sound than for its method: treating culture as raw material to be dissected and reassembled, not passively consumed. Throbbing Gristle's "cultural engineering" — the disjunction between surface and content — became the CCRU's operating principle.</div>
@@ -895,7 +903,6 @@
           <span class="tag tag--valence">Futurist</span>
           <span class="tag tag--concept">popular modernism</span>
           <span class="tag tag--concept">democratic futurism</span>
-          <span class="tag tag--concept">the infrastructure of the new</span>
         </div>
         <div class="genre-tagline">Fisher's prime example of "popular modernism" — experimental techniques becoming genuinely popular, reaching the charts without dumbing down. New Order's <em>Blue Monday</em> is the hinge between post-punk's cold interiority and dance music's collective energy. Proof that innovation and mass appeal weren't opposed — until the infrastructure that produced them was dismantled.</div>
       </div>
@@ -924,7 +931,7 @@
   <!-- ═══════ II. DANCE REVOLUTION ═══════ -->
   <div class="era-title">II. The Dance Revolution (1980s–90s)</div>
 
-  <details class="genre-card" data-relation="Theorized" data-valence="Utopian">
+  <details class="genre-card" id="genre-chicago-house" data-relation="Theorized" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Chicago House</div>
@@ -932,10 +939,9 @@
         <div class="genre-oneliner">The birth of modern dance music.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Theorized</span>
-          <span class="tag tag--valence">Utopian</span>
+          <span class="tag tag--valence">Generative</span>
           <span class="tag tag--concept">collective jouissance</span>
           <span class="tag tag--concept">communal world-building</span>
-          <span class="tag tag--concept">acid</span>
         </div>
         <div class="genre-tagline">House's dancefloor utopianism — communal, ecstatic, built by marginalized communities from cheap technology — is the original model for what Fisher later theorized as "acid communism." Its commercial absorption into superclub culture is one of his key examples of capitalism neutralizing threats by incorporating them.</div>
       </div>
@@ -974,7 +980,6 @@
           <span class="tag tag--valence">Futurist</span>
           <span class="tag tag--concept">Afrofuturism</span>
           <span class="tag tag--concept">futurism from ruins</span>
-          <span class="tag tag--concept">deindustrialization</span>
         </div>
         <div class="genre-tagline">Working-class Black kids in a collapsing auto city imagined the future through the machines that displaced their parents. Fisher reads Detroit and Manchester as mirror cities — futurism built from the ruins of industrial capitalism, by the people it abandoned. Kodwo Eshun's <em>More Brilliant than the Sun</em> is the key theoretical companion.</div>
       </div>
@@ -1002,7 +1007,7 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Mourned" data-valence="Utopian">
+  <details class="genre-card" id="genre-rave" data-relation="Mourned" data-valence="Generative">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Rave & Hardcore</div>
@@ -1010,11 +1015,9 @@
         <div class="genre-oneliner">When house and techno crossed the Atlantic and detonated.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Mourned</span>
-          <span class="tag tag--valence">Utopian</span>
-          <span class="tag tag--concept">acid communism</span>
-          <span class="tag tag--concept">popular modernism</span>
-          <span class="tag tag--concept">the Criminal Justice Act</span>
+          <span class="tag tag--valence">Generative</span>
           <span class="tag tag--concept">suppressed utopia</span>
+          <span class="tag tag--concept">the Criminal Justice Act</span>
         </div>
         <div class="genre-tagline">The last mass working-class cultural explosion in Britain — when collective joy was a political act. The state legislated against "repetitive beats." Fisher's <em>Acid Communism</em> argues this suppression was deliberate: rave threatened neoliberalism by demonstrating, in practice, that shared abundance outside the logic of work was possible.</div>
       </div>
@@ -1053,9 +1056,7 @@
           <span class="tag tag--valence">Resistant</span>
           <span class="tag tag--valence">Futurist</span>
           <span class="tag tag--concept">CCRU</span>
-          <span class="tag tag--concept">text at sample velocity</span>
           <span class="tag tag--concept">pirate radio</span>
-          <span class="tag tag--concept">diasporic futurism</span>
         </div>
         <div class="genre-tagline">Central to the CCRU — Fisher said the collective tried to do with writing what jungle did with sound: "text at sample velocity." Kode9, who later founded Hyperdub and released Burial, was a CCRU member. The line from jungle to dubstep runs directly through Fisher's intellectual milieu. Pirate radio's crackle becomes Burial's signature texture.</div>
       </div>
@@ -1092,7 +1093,7 @@
   <!-- ═══════ III. THE BRANCHING ═══════ -->
   <div class="era-title">III. The Branching (Mid-90s–2000s)</div>
 
-  <details class="genre-card" data-relation="Theorized" data-valence="Mourning">
+  <details class="genre-card" data-relation="Theorized" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Trip-Hop</div>
@@ -1100,7 +1101,7 @@
         <div class="genre-oneliner">Slow, melancholic electronic music built from hip-hop beats, dub bass, and cinematic textures.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Theorized</span>
-          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">memory as medium</span>
           <span class="tag tag--concept">deflation of expectations</span>
         </div>
@@ -1128,7 +1129,7 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Mourned" data-valence="Utopian Mourning">
+  <details class="genre-card" data-relation="Mourned" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">UK Garage & 2-Step</div>
@@ -1136,10 +1137,8 @@
         <div class="genre-oneliner">House music with shuffled, syncopated rhythms and R&B vocal samples.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Mourned</span>
-          <span class="tag tag--valence">Utopian</span>
-          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">pirate radio crackle</span>
-          <span class="tag tag--concept">aspirational optimism</span>
           <span class="tag tag--concept">commercialization as defeat</span>
         </div>
         <div class="genre-tagline">What Burial is mourning. The crackle on his records is pirate radio static from UKG transmissions — the sound of a signal barely reaching you. Garage's brief aspirational optimism in late-90s London faded as the scene was commercialized. The party ended; nothing replaced it.</div>
@@ -1179,7 +1178,6 @@
           <span class="tag tag--valence">Generative</span>
           <span class="tag tag--concept">the eerie</span>
           <span class="tag tag--concept">hauntology before the name</span>
-          <span class="tag tag--concept">warped nostalgia</span>
         </div>
         <div class="genre-tagline">Boards of Canada's <em>Music Has the Right to Children</em> is hauntology before the term existed — warped tape, children's TV samples, faded synths evoking a half-remembered broadcast from a childhood that may not have happened. Fisher's concept of "the eerie," defined in <em>The Weird and the Eerie</em>, finds its purest sonic expression here.</div>
       </div>
@@ -1205,7 +1203,7 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Home" data-valence="Mourning">
+  <details class="genre-card" data-relation="Home" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Dubstep</div>
@@ -1213,11 +1211,9 @@
         <div class="genre-oneliner">Slow, bass-heavy, spacious dance music built on dub's principles.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Home</span>
-          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">crackle</span>
-          <span class="tag tag--concept">temporal disjunction</span>
           <span class="tag tag--concept">sonic hauntology</span>
-          <span class="tag tag--concept">the space where the crowd used to be</span>
         </div>
         <div class="genre-tagline">Fisher's 2000s home genre. Burial's <em>Untrue</em> is the album he wrote about most passionately — crackle as temporal disjunction, ghostly vocal samples as mourning for the rave, reverb as the space where the crowd used to be. The definitive sound of hauntology: listening to a memory, not an event.</div>
       </div>
@@ -1246,7 +1242,7 @@
   <!-- ═══════ IV. HAUNTOLOGY ═══════ -->
   <div class="era-title">IV. Hauntology & the Aftermath (2000s–10s)</div>
 
-  <details class="genre-card" data-relation="Theorized" data-valence="Mourning">
+  <details class="genre-card" data-relation="Theorized" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Hauntology</div>
@@ -1254,11 +1250,9 @@
         <div class="genre-oneliner">Not a genre — a tendency. Music saturated with the textures of dead or dying media.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Theorized</span>
-          <span class="tag tag--valence">Mourning</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">lost futures</span>
           <span class="tag tag--concept">the slow cancellation of the future</span>
-          <span class="tag tag--concept">the agency of the virtual</span>
-          <span class="tag tag--concept">spectres of Marx</span>
         </div>
         <div class="genre-tagline">Fisher's defining concept, borrowed from Derrida and repurposed for sonic culture. Crackle, tape hiss, and degraded samples are the texture of absent futures acting on the present. The "lost futures" aren't abstract — they're the futures promised by the welfare state, free art schools, and public broadcasting, dismantled under Thatcher and never rebuilt.</div>
       </div>
@@ -1283,7 +1277,7 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Diagnosed" data-valence="Symptomatic">
+  <details class="genre-card" data-relation="Diagnosed" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Hypnagogic Pop & Vaporwave</div>
@@ -1291,10 +1285,9 @@
         <div class="genre-oneliner">Half-remembered pop from an era that didn't happen.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Diagnosed</span>
-          <span class="tag tag--valence">Symptomatic</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">capitalist realism</span>
           <span class="tag tag--concept">ironic distance as complicity</span>
-          <span class="tag tag--concept">postmodern pastiche</span>
         </div>
         <div class="genre-tagline">Fisher engaged cautiously. Vaporwave potentially illustrates capitalist realism — you can't satirize consumer culture without being absorbed by it. Ironic distance from the mall isn't resistance; it's the dominant mode of capitalist subjectivity itself. Hauntology mourns lost futures; vaporwave aestheticizes the rubble without naming what was lost.</div>
       </div>
@@ -1320,7 +1313,7 @@
     </div>
   </details>
 
-  <details class="genre-card" data-relation="Diagnosed" data-valence="Symptomatic">
+  <details class="genre-card" data-relation="Diagnosed" data-valence="Haunted">
     <summary>
       <div class="genre-header">
         <div class="genre-name">Post-Dubstep</div>
@@ -1328,11 +1321,9 @@
         <div class="genre-oneliner">The generation after dubstep, working in its ruins.</div>
         <div class="genre-tags">
           <span class="tag tag--relation">Diagnosed</span>
-          <span class="tag tag--valence">Symptomatic</span>
+          <span class="tag tag--valence">Haunted</span>
           <span class="tag tag--concept">Another Grey World</span>
-          <span class="tag tag--concept">green to ash</span>
           <span class="tag tag--concept">the impasse</span>
-          <span class="tag tag--concept">withdrawal from the collective</span>
         </div>
         <div class="genre-tagline">Where the lineage arrives and Fisher's diagnostic tension is sharpest. Darkstar's <em>North</em> — "Another Grey World" — is Eno's lush landscape turned to ash. James Blake's retreat into interiority accepts the depleted landscape as a destination. Music made in conditions of capitalist realism — but naming the impasse is the precondition for escaping it.</div>
       </div>
@@ -1374,7 +1365,6 @@
           <span class="tag tag--valence">Recuperative</span>
           <span class="tag tag--concept">suppressed utopia</span>
           <span class="tag tag--concept">consciousness raising</span>
-          <span class="tag tag--concept">the desire hasn't disappeared</span>
         </div>
         <div class="genre-tagline">The decisive turn away from hauntology's mourning. What we lost was real, it was stolen, and the desire for it hasn't gone away — it's been privatized, not eliminated. Fisher was trying to become what he'd always admired in the best music: a transmission from a future that hasn't arrived yet but might still.</div>
       </div>
@@ -1386,6 +1376,13 @@
       <p>The counterculture of the 1960s and the rave culture of the late '80s/early '90s weren't just hedonistic escapes. They were genuine experiments in collective consciousness-raising — moments when large numbers of people briefly experienced a different way of being together, outside the logic of work, competition, and private accumulation. The problem wasn't that these experiments failed on their own terms. The problem was that they were <em>deliberately suppressed</em> — the war on drugs, the Criminal Justice Act, the defunding of public institutions — because they threatened the emerging neoliberal order.</p>
       <h4>Why It Matters for the Lineage</h4>
       <p>Hauntology says: <em>look what we lost</em>. Acid Communism says: <em>what we lost was real, it was stolen, and the desire for it hasn't gone away</em>. The shift reframes the entire musical lineage. Rave wasn't a failed utopia — it was a suppressed one. The communal euphoria of the dancefloor wasn't naive; it was a genuine experiment in living differently, and specific political forces shut it down. Fisher was trying to stop being a doctor cataloguing symptoms and start being something closer to what he'd always admired in the best music — a transmission from a future that hasn't arrived yet but might still.</p>
+      <h4>Draws On — Listen Back To</h4>
+      <p>Acid Communism isn't a genre with its own sound — it points <em>backward</em>, to the moments whose collective energy Fisher thought could still be reactivated. The recovery project reaches for:</p>
+      <ul>
+        <li><a class="xref-link" href="#genre-chicago-house">Chicago House ↑</a> — the dancefloor as communal world-building, utopian by default</li>
+        <li><a class="xref-link" href="#genre-rave">Rave & Hardcore ↑</a> — the suppressed utopia at the center of the argument; the party the state shut down</li>
+        <li><strong>1960s counterculture</strong> — the psychedelic consciousness-raising the "acid" in Acid Communism names. Beyond this page's electronic lineage, but its true root: <a class="yt-link" href="https://www.youtube.com/results?search_query=The+Beatles+Tomorrow+Never+Knows" target="_blank">The Beatles — "Tomorrow Never Knows"</a>, <a class="yt-link" href="https://www.youtube.com/results?search_query=Sly+and+the+Family+Stone+Everyday+People" target="_blank">Sly & The Family Stone — "Everyday People"</a></li>
+      </ul>
       <h4>Key Reading</h4>
       <ul>
         <li>Mark Fisher — <a class="yt-link" href="https://www.youtube.com/results?search_query=Mark+Fisher+Acid+Communism+introduction" target="_blank">"Acid Communism" introduction</a> (posthumous, in <em>K-Punk: Collected Writings</em>)</li>
@@ -1475,6 +1472,25 @@
 </div>
 
 <script>
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('a.xref-link');
+  if (!link) return;
+  var id = link.getAttribute('href');
+  if (!id || id.charAt(0) !== '#') return;
+  e.preventDefault();
+  var target = document.querySelector(id);
+  if (!target) return;
+  target.classList.remove('filtered-out');
+  target.open = true;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.classList.remove('flash-target');
+  void target.offsetWidth;
+  target.classList.add('flash-target');
+});
+</script>
+
+<script>
+
 var activeFilters = { relation: [], valence: [] };
 
 function toggleFilter(btn) {
